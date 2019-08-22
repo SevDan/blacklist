@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <menu id="entries-blacklist" insertBefore="administration" description="mainMsg://BlackList">
+        <item screen="blacklist_BlackListEntry.browse" description="mainMsg://BlackListEntries"/>
+    </menu>
+    <menu id="profiles-blacklist" insertBefore="administration" description="mainMsg://Profiles">
+        <item screen="blacklist_VoterProfile.browse" description="mainMsg://VoterProfiles"/>
+        <item screen="blacklist_AcceptorProfile.browse" description="mainMsg://AcceptorProfiles"/>
+        <item screen="blacklist_ReviewerProfile.browse" description="mainMsg://ReviewerProfiles"/>
+    </menu>
+    <menu id="info-blacklist" insertBefore="administration">
+        <item screen="blacklist_History.browse"/>
+        <item screen="blacklist_PlayerIP.browse"/>
+        <item screen="blacklist_Contact.browse"/>
+        <item screen="blacklist_Review.browse"/>
+    </menu>
+</menu-config>

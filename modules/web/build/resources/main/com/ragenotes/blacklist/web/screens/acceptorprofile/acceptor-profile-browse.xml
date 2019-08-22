@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="acceptorProfilesTable"
+        messagesPack="com.ragenotes.blacklist.web.screens.acceptorprofile">
+    <data readOnly="true">
+        <collection id="acceptorProfilesDc"
+                    class="com.ragenotes.blacklist.entity.profiles.AcceptorProfile"
+                    view="_local">
+            <loader id="acceptorProfilesDl">
+                <query>
+                    <![CDATA[select e from blacklist_AcceptorProfile e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="acceptorProfilesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="acceptorProfilesTable"
+                dataLoader="acceptorProfilesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="acceptorProfilesTable"
+                    width="100%"
+                    dataContainer="acceptorProfilesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="acceptorProfilesTable.create"/>
+                <button id="editBtn" action="acceptorProfilesTable.edit"/>
+                <button id="removeBtn" action="acceptorProfilesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

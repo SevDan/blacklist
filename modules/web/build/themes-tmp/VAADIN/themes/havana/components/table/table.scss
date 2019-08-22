@@ -1,0 +1,131 @@
+/*
+ * Copyright (c) 2008-2018 Haulmont.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+/**
+ * Cell border color of selected row
+ */
+$c-table-selected-row-cell-border-color: #9bb3d3 !default;
+
+/**
+ * Background of header cell in table
+ */
+$c-table-header-background-color: #e6eaef !default;
+
+/**
+ * Hover background of header cell in table
+ */
+$c-table-header-hover-background-color: #f2f5f7 !default;
+
+@mixin havana-table($primary-stylename: v-table) {
+
+  .#{$primary-stylename} {
+
+    .#{$primary-stylename}-header-wrap {
+      background: $c-table-header-background-color;
+
+      .#{$primary-stylename}-header {
+
+        .#{$primary-stylename}-header-cell:hover,
+        .#{$primary-stylename}-header-cell-asc:hover,
+        .#{$primary-stylename}-header-cell-desc:hover {
+          background: $c-table-header-hover-background-color
+        }
+      }
+    }
+
+    .#{$primary-stylename}-row.v-selected:hover,
+    .#{$primary-stylename}-row-odd.v-selected:hover,
+    .#{$primary-stylename}-caption-row.v-selected:hover {
+      .v-ie & {
+        background-color: $c-row-selection-background-color;
+      }
+    }
+
+    .#{$primary-stylename}-row.v-selected,
+    .#{$primary-stylename}-row-odd.v-selected,
+    .#{$primary-stylename}-caption-row.v-selected {
+      background-color: $c-row-selection-background-color;
+      outline-color: transparent;
+
+      @include linear-gradient(to bottom, $c-row-selection-background-color 0%,$c-row-selection-background-color 100%);
+
+      .#{$primary-stylename}-cell-content {
+        color: $c-row-selection-text-color;
+      }
+    }
+
+    .v-ch & .#{$primary-stylename}-header td:first-child .v-table-caption-container,
+    .v-ch & .#{$primary-stylename}-footer td:first-child {
+      padding-left: 8px;
+    }
+  }
+
+  .#{$primary-stylename}-body-focus .#{$primary-stylename}-body-wrapper,
+   .#{$primary-stylename}-body-wrapper:focus {
+    border-color: $v-selection-item-selection-color;
+  }
+
+  .#{$primary-stylename}-cell-content.boolean-cell-true .#{$primary-stylename}-cell-wrapper {
+    color: transparent;
+    font-size: 0;
+    height: round($v-unit-size/2);
+    background: no-repeat left center;
+    margin-left: $v-table-cell-padding-horizontal;
+    background-image: url(images/checkbox-checked.png);
+  }
+
+  .#{$primary-stylename}-cell-content.boolean-cell-false .#{$primary-stylename}-cell-wrapper {
+    color: transparent;
+    font-size: 0;
+    height: round($v-unit-size/2);
+    background: no-repeat left center;
+    margin-left: $v-table-cell-padding-horizontal;
+    background-image: url(images/checkbox-unchecked.png);
+  }
+
+  .#{$primary-stylename}-cell-content.boolean-cell-false,
+  .#{$primary-stylename}-cell-content.boolean-cell-true {
+    .#{$primary-stylename}-cell-wrapper:before {
+      content: none;
+    }
+  }
+
+  .#{$primary-stylename}-column-selector {
+    top: 5px;
+    width: 16px;
+    height: 18px;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(images/column-selector.png);
+    border: none;
+    border-radius: 0;
+  }
+
+  .#{$primary-stylename}-column-selector:before {
+    content: none;
+  }
+
+  .#{$primary-stylename} [class*="-row"].v-selected {
+    + .v-selected {
+      background: $c-row-selection-background-color;
+    }
+
+    .#{$primary-stylename}-cell-content {
+      border-color: $c-table-selected-row-cell-border-color;
+    }
+  }
+}

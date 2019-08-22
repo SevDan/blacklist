@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="voterProfilesTable"
+        messagesPack="com.ragenotes.blacklist.web.screens.voterprofile">
+    <data readOnly="true">
+        <collection id="voterProfilesDc"
+                    class="com.ragenotes.blacklist.entity.profiles.VoterProfile"
+                    view="_local">
+            <loader id="voterProfilesDl">
+                <query>
+                    <![CDATA[select e from blacklist_VoterProfile e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="voterProfilesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="voterProfilesTable"
+                dataLoader="voterProfilesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="voterProfilesTable"
+                    width="100%"
+                    dataContainer="voterProfilesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="voterProfilesTable.create"/>
+                <button id="editBtn" action="voterProfilesTable.edit"/>
+                <button id="removeBtn" action="voterProfilesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

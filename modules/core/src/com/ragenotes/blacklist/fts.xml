@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fts-config xmlns="http://schemas.haulmont.com/cuba/fts.xsd">
+    <entities>
+        <entity class="com.ragenotes.blacklist.entity.entries.BlackListEntry">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.profiles.ReviewerProfile">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.Review">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.profiles.AcceptorProfile">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.profiles.VoterProfile">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.Contact">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.entries.History">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.entries.PlayerIP">
+            <include re=".*"/>
+        </entity>
+        <entity class="com.ragenotes.blacklist.entity.ExtUser">
+            <include re=".*"/>
+        </entity>
+    </entities>
+</fts-config>

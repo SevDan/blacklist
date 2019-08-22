@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+  <entity class="com.haulmont.cuba.core.entity.EntitySnapshot" name="sys$EntitySnapshot">
+    <attributes>
+      <many-to-one name="author" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="AUTHOR_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.UserRole" name="sec$UserRole">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.UserSetting" name="sec$UserSetting">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.UserSubstitution" name="sec$UserSubstitution">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+      <many-to-one name="substitutedUser" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="SUBSTITUTED_USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.EntityLogItem" name="sec$EntityLog">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.FilterEntity" name="sec$Filter">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.SearchFolder" name="sec$SearchFolder">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.Presentation" name="sec$Presentation">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.ScreenHistoryEntity" name="sec$ScreenHistory">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+      <many-to-one name="substitutedUser" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="SUBSTITUTED_USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.SessionLogEntry" name="sec$SessionLogEntry">
+    <attributes>
+      <many-to-one name="substitutedUser" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="SUBSTITUTED_USER_ID"/>
+      </many-to-one>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+  <entity class="com.haulmont.cuba.security.entity.RememberMeToken" name="sec$RememberMeToken">
+    <attributes>
+      <many-to-one name="user" target-entity="com.ragenotes.blacklist.entity.ExtUser" fetch="LAZY">
+        <join-column name="USER_ID"/>
+      </many-to-one>
+    </attributes>
+  </entity>
+</entity-mappings>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+
+    <view entity="blacklist_BlackListEntry" name="blackListEntry-full" extends="_local">
+        <property name="contacts" view="_local"/>
+        <property name="acceptor" view="_local"/>
+        <property name="histories" view="_local"/>
+        <property name="voter" view="_local"/>
+        <property name="playerIps" view="_local"/>
+    </view>
+
+    <view entity="blacklist_AcceptorProfile" name="acceptorProfile-full" extends="_local">
+        <property name="contacts" view="_local"/>
+        <property name="acceptedEntries" view="_local"/>
+        <property name="user" view="_minimal"/>
+    </view>
+    <view entity="blacklist_ReviewerProfile" name="reviewerProfile-full" extends="_local">
+        <property name="user" view="_minimal"/>
+        <property name="contacts" view="_local"/>
+        <property name="histories" view="_local"/>
+        <property name="averageMark"/>
+        <property name="reviews" view="_local"/>
+    </view>
+    <view entity="blacklist_VoterProfile" name="voterProfile-full" extends="_local">
+        <property name="user" view="_minimal"/>
+        <property name="contacts" view="_local"/>
+        <property name="votedEntries" view="_local"/>
+    </view>
+    <view entity="blacklist_ExtUser" name="extUser-full" extends="_minimal">
+        <property name="login"/>
+        <property name="name"/>
+        <property name="email"/>
+        <property name="firstName"/>
+        <property name="middleName"/>
+        <property name="lastName"/>
+        <property name="language"/>
+        <property name="group"/>
+        <property name="active"/>
+        <property name="reviewerProfile" view="_local"/>
+        <property name="acceptorProfile" view="_local"/>
+        <property name="voterProfile" view="_local"/>
+        <property name="userRoles" view="_minimal"/>
+        <property name="version"/>
+        <property name="timeZone"/>
+        <property name="substitutions" view="_minimal"/>
+        <property name="position"/>
+    </view>
+    <view entity="blacklist_Review" name="review-full" extends="_local">
+        <property name="entry" view="_local"/>
+    </view>
+
+</views>

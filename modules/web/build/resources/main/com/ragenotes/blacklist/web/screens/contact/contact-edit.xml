@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.ragenotes.blacklist.web.screens.contact">
+    <data>
+        <instance id="contactDc"
+                  class="com.ragenotes.blacklist.entity.Contact"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="contactDc">
+            <column width="250px">
+                <textField id="valueField" property="value"/>
+                <lookupField id="typeField" property="type" required="true"/>
+                <textField id="codeField" property="code" required="true"/>
+                <textField id="descriptionField" property="description"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,2 @@
+alter table BLACKLIST_ACCEPTOR_PROFILE_CONTACT_LINK add column PROFILE_ID varchar(36) not null  ;
+alter table BLACKLIST_ACCEPTOR_PROFILE_CONTACT_LINK drop column ACCEPTORPROFILE_ID cascade ;

@@ -1,0 +1,1 @@
+drop table BLACKLIST_CONTACT_URL__U52013 if exists cascade ;
