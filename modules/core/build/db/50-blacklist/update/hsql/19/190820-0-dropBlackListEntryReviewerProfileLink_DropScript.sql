@@ -1,1 +1,0 @@
-drop table BLACKLIST_BLACK_LIST_ENTRY_REVIEWER_PROFILE_LINK__U73681 if exists cascade ;

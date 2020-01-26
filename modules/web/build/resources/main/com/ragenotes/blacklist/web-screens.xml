@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
-    <screen id="BlackListEntryVote" class="com.ragenotes.blacklist.web.screens.blacklistentry.BlackListEntryVote"/>
-    <screen id="BlackListEntryReview" class="com.ragenotes.blacklist.web.screens.blacklistentry.BlackListEntryReview"/>
-    <screen id="BlackListEntryBrowse" class="com.ragenotes.blacklist.web.screens.blacklistentry.BlackListEntryBrowse"/>
-    <screen id="BlackListEntryAccept" class="com.ragenotes.blacklist.web.screens.blacklistentry.BlackListEntryAccept"/>
-    <screen id="sec$User.edit" template="com/ragenotes/blacklist/web/screens/ext-user-edit.xml"/>
-</screen-config>
