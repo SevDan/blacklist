@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @NamePattern("%s|type")
-@Table(name = "BLACKLIST_CONTACT")
-@Entity(name = "blacklist_Contact")
+@Table(name = "BL_CONTACT")
+@Entity(name = "bl_Contact")
 public class Contact extends StandardEntity {
 
     private static final long serialVersionUID = 827216102057289653L;
@@ -19,9 +19,6 @@ public class Contact extends StandardEntity {
 
     @Column(name = "TYPE_")
     protected String type;
-
-    @Column(name = "CODE", nullable = false, length = 100)
-    protected String code;
 
     @Column(name = "DESCRIPTION")
     protected String description;
@@ -40,14 +37,6 @@ public class Contact extends StandardEntity {
 
     public void setType(ContactType type) {
         this.type = type == null ? null : type.getId();
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getDescription() {

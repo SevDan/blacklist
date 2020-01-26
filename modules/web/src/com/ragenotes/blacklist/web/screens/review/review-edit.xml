@@ -10,8 +10,8 @@
             <loader/>
         </instance>
     </data>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode height="AUTO"
+                width="AUTO"/>
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="reviewDc">
             <column width="250px">
@@ -22,7 +22,6 @@
                     </actions>
                 </pickerField>
                 <dateField id="dateField" property="date"/>
-                <textField id="codeField" property="code" required="true"/>
                 <lookupField id="markField" property="mark" required="true"/>
             </column>
         </form>

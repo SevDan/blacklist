@@ -9,7 +9,7 @@
                     view="_local">
             <loader id="acceptorProfilesDl">
                 <query>
-                    <![CDATA[select e from blacklist_AcceptorProfile e]]>
+                    <![CDATA[select e from bl_AcceptorProfile e]]>
                 </query>
             </loader>
         </collection>

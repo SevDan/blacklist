@@ -11,7 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-@Entity(name = "blacklist_ExtUser")
+@Entity(name = "bl_ExtUser")
 @Extends(User.class)
 public class ExtUser extends User {
 

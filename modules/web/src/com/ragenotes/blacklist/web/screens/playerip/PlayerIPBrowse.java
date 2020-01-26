@@ -3,7 +3,7 @@ package com.ragenotes.blacklist.web.screens.playerip;
 import com.haulmont.cuba.gui.screen.*;
 import com.ragenotes.blacklist.entity.entries.PlayerIP;
 
-@UiController("blacklist_PlayerIP.browse")
+@UiController("bl_PlayerIP.browse")
 @UiDescriptor("player-ip-browse.xml")
 @LookupComponent("playerIPsTable")
 @LoadDataBeforeShow

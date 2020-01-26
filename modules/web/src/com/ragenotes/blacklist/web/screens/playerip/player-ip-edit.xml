@@ -16,7 +16,6 @@
         <form id="form" dataContainer="playerIPDc">
             <column width="250px">
                 <textField id="ipField" property="ip" required="true"/>
-                <textField id="codeField" property="code" required="true"/>
                 <dateField id="fixationDateField" property="fixationDate"/>
                 <textField id="descriptionField" property="description"/>
             </column>

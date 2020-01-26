@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @NamePattern("%s|name")
-@Table(name = "BLACKLIST_VOTER_PROFILE")
-@Entity(name = "blacklist_VoterProfile")
+@Table(name = "BL_VOTER_PROFILE")
+@Entity(name = "bl_VoterProfile")
 public class VoterProfile extends StandardEntity {
 
     private static final long serialVersionUID = 2362426971769122731L;
@@ -22,13 +22,13 @@ public class VoterProfile extends StandardEntity {
     @Column(name = "CODE", nullable = false, length = 100)
     protected String code;
 
-    @JoinTable(name = "BLACKLIST_VOTER_PROFILE_CONTACT_LINK",
+    @JoinTable(name = "BL_VOTER_PROFILE_CONTACT_LINK",
             joinColumns = @JoinColumn(name = "ROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "CONTACT_ID"))
     @ManyToMany
     protected List<Contact> contacts;
 
-    @JoinTable(name = "BLACKLIST_VOTER_PROFILE_BLACK_LIST_ENTRY_LINK",
+    @JoinTable(name = "BL_VOTER_PROFILE_BLACK_LIST_ENTRY_LINK",
             joinColumns = @JoinColumn(name = "PROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "ENTRY_ID"))
     @ManyToMany

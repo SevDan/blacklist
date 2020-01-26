@@ -7,17 +7,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @NamePattern("%s|name")
-@Table(name = "BLACKLIST_HISTORY")
-@Entity(name = "blacklist_History")
+@Table(name = "BL_HISTORY")
+@Entity(name = "bl_History")
 public class History extends StandardEntity {
 
     private static final long serialVersionUID = -22614358449823602L;
 
     @Column(name = "NAME")
     protected String name;
-
-    @Column(name = "CODE", nullable = false, length = 100)
-    protected String code;
 
     @Column(name = "DESCRIPTION")
     protected String description;
@@ -40,14 +37,6 @@ public class History extends StandardEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Date getDate() {

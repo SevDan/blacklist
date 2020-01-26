@@ -9,7 +9,7 @@
                     view="_local">
             <loader id="historiesDl">
                 <query>
-                    <![CDATA[select e from blacklist_History e]]>
+                    <![CDATA[select e from bl_History e]]>
                 </query>
             </loader>
         </collection>
@@ -33,7 +33,6 @@
             </actions>
             <columns>
                 <column id="name"/>
-                <column id="code"/>
                 <column id="description"/>
                 <column id="date"/>
             </columns>

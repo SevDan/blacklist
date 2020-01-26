@@ -10,13 +10,13 @@
         <param-value>
             classpath:com/ragenotes/blacklist/web-app.properties
             /WEB-INF/local.app.properties
-            "file:${catalina.base}/conf/rnbl/local.app.properties"
+            "file:${catalina.base}/conf/bl/local.app.properties"
         </param-value>
     </context-param>
     <!--Application components-->
     <context-param>
         <param-name>appComponents</param-name>
-        <param-value>com.haulmont.cuba com.haulmont.fts</param-value>
+        <param-value>com.haulmont.cuba com.haulmont.fts com.haulmont.addon.restapi</param-value>
     </context-param>
     <listener>
         <listener-class>com.vaadin.server.communication.JSR356WebsocketInitializer</listener-class>

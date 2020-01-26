@@ -16,7 +16,6 @@
         <form id="form" dataContainer="historyDc">
             <column width="250px">
                 <textField id="nameField" property="name" required="true"/>
-                <textField id="codeField" property="code" required="true"/>
                 <textField id="descriptionField" property="description"/>
                 <dateField id="dateField" property="date"/>
             </column>

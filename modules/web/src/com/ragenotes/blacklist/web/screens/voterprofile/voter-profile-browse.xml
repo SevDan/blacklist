@@ -9,7 +9,7 @@
                     view="_local">
             <loader id="voterProfilesDl">
                 <query>
-                    <![CDATA[select e from blacklist_VoterProfile e]]>
+                    <![CDATA[select e from bl_VoterProfile e]]>
                 </query>
             </loader>
         </collection>

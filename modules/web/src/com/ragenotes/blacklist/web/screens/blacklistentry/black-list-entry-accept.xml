@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         caption="msg://editorCaption"
-        focusComponent="scrollBox"
+        focusComponent="split"
         messagesPack="com.ragenotes.blacklist.web.screens.blacklistentry">
     <data>
         <instance id="blackListEntryDc"
@@ -12,56 +12,85 @@
             <collection id="playerIpsDc" property="playerIps"/>
             <collection id="historiesDc" property="histories"/>
         </instance>
+        <collection id="reviewsDc"
+                    class="com.ragenotes.blacklist.entity.Review"
+                    view="review-full">
+            <loader id="reviewsDl">
+                <query>
+                    select rev from bl_Review rev where rev.entry = :entry
+                </query>
+            </loader>
+        </collection>
     </data>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="scrollBox" spacing="true">
-        <scrollBox id="scrollBox" spacing="true">
-            <form id="form" dataContainer="blackListEntryDc">
-                <column width="250px">
-                    <textField id="nickNameField" property="nickName" editable="false"/>
-                    <textField id="fullNameField" property="fullName" editable="false"/>
-                    <textField id="firstNameField" property="firstName" editable="false"/>
-                    <textField id="secondNameField" property="secondName" editable="false"/>
-                    <textField id="lastNameField" property="lastName" editable="false"/>
-                    <textField id="codeField" property="code" editable="false"/>
-                    <textArea id="descriptionField" property="description" width="500px" height="250px" editable="false"/>
-                    <pickerField id="acceptorField" property="acceptor" editable="false"/>
-                    <pickerField id="voterField" property="voter" editable="false"/>
-                    <lookupField id="statusField" property="status" required="true"/>
-                </column>
-            </form>
-            <groupBox id="contactsBox" caption="msg://com.ragenotes.blacklist.entity.entries/BlackListEntry.contacts">
-                <table id="contactsTable" dataContainer="contactsDc" width="100%" height="200px">
-                    <columns>
-                        <column id="value"/>
-                        <column id="type"/>
-                        <column id="code"/>
-                        <column id="description"/>
-                    </columns>
-                </table>
-            </groupBox>
-            <groupBox id="playerIpsBox" caption="msg://com.ragenotes.blacklist.entity.entries/BlackListEntry.playerIps">
-                <table id="playerIpsTable" dataContainer="playerIpsDc" width="100%" height="200px">
-                    <columns>
-                        <column id="ip"/>
-                        <column id="code"/>
-                        <column id="fixationDate"/>
-                        <column id="description"/>
-                    </columns>
-                </table>
-            </groupBox>
-            <groupBox id="historiesBox" caption="msg://com.ragenotes.blacklist.entity.entries/BlackListEntry.histories">
-                <table id="historiesTable" dataContainer="historiesDc" width="100%" height="200px">
-                    <columns>
-                        <column id="name"/>
-                        <column id="code"/>
-                        <column id="description"/>
-                        <column id="date"/>
-                    </columns>
-                </table>
-            </groupBox>
-        </scrollBox>
+    <layout expand="split" spacing="true">
+        <split id="split" orientation="horizontal">
+            <vbox id="formBox" spacing="true" margin="true,true,true,true"
+                  width="100%" height="100%">
+                <form id="form" dataContainer="blackListEntryDc" width="100%">
+                    <column width="100%">
+                        <textField id="nickNameField" property="nickName" editable="false"/>
+                        <textField id="fullNameField" property="fullName" editable="false"/>
+                        <textField id="firstNameField" property="firstName" editable="false"/>
+                        <textField id="secondNameField" property="secondName" editable="false"/>
+                        <textField id="lastNameField" property="lastName" editable="false"/>
+                        <textField id="codeField" property="code" editable="false"/>
+                        <textArea id="descriptionField" property="description" width="100%" rows="7"
+                                  editable="false" resizable="true"/>
+                        <pickerField id="acceptorField" property="acceptor" editable="false"/>
+                        <pickerField id="voterField" property="voter" editable="false"/>
+                        <lookupField id="statusField" property="status" required="true"/>
+                        <textField id="markField" property="mark" editable="false"/>
+                    </column>
+                </form>
+            </vbox>
+            <vbox id="entitiesBox" spacing="true" expand="scrollBox" margin="true,true,true,true">
+                <scrollBox id="scrollBox" spacing="true" width="100%">
+                    <table id="reviewsTable" caption="msg://caption.reviews" dataContainer="reviewsDc"
+                           width="100%" height="300px">
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
+                        <columns>
+                            <column id="mark"/>
+                            <column id="createdBy" caption="msg://caption.author"/>
+                            <column id="date"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button action="reviewsTable.create"/>
+                            <button action="reviewsTable.refresh"/>
+                        </buttonsPanel>
+                        <rows/>
+                    </table>
+                    <table id="contactsTable" dataContainer="contactsDc"
+                           width="100%" height="200px" caption="msg://caption.contacts">
+                        <columns>
+                            <column id="value"/>
+                            <column id="type"/>
+                            <column id="description"/>
+                        </columns>
+                    </table>
+                    <table id="playerIpsTable" dataContainer="playerIpsDc" width="100%" height="200px"
+                           caption="msg://caption.playerIps">
+                        <columns>
+                            <column id="ip"/>
+                            <column id="fixationDate"/>
+                            <column id="description"/>
+                        </columns>
+                    </table>
+                    <table id="historiesTable" dataContainer="historiesDc" width="100%" height="200px"
+                           caption="msg://caption.histories">
+                        <columns>
+                            <column id="name"/>
+                            <column id="description"/>
+                            <column id="date"/>
+                        </columns>
+                    </table>
+                </scrollBox>
+            </vbox>
+        </split>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>

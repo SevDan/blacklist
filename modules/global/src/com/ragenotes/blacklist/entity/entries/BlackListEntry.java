@@ -16,8 +16,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @NamePattern("%s %s|fullName,nickName")
-@Table(name = "BLACKLIST_BLACK_LIST_ENTRY")
-@Entity(name = "blacklist_BlackListEntry")
+@Table(name = "BL_BLACK_LIST_ENTRY")
+@Entity(name = "bl_BlackListEntry")
 public class BlackListEntry extends StandardEntity {
 
     private static final long serialVersionUID = 8486763652386562234L;
@@ -43,19 +43,19 @@ public class BlackListEntry extends StandardEntity {
     @Column(name = "DESCRIPTION")
     protected String description;
 
-    @JoinTable(name = "BLACKLIST_BLACK_LIST_ENTRY_CONTACT_LINK",
+    @JoinTable(name = "BL_BLACK_LIST_ENTRY_CONTACT_LINK",
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "CONTACT_ID"))
     @ManyToMany
     protected List<Contact> contacts;
 
-    @JoinTable(name = "BLACKLIST_BLACK_LIST_ENTRY_PLAYER_IP_LINK",
+    @JoinTable(name = "BL_BLACK_LIST_ENTRY_PLAYER_IP_LINK",
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "PLAYERIP_ID"))
     @ManyToMany
     protected List<PlayerIP> playerIps;
 
-    @JoinTable(name = "BLACKLIST_BLACK_LIST_ENTRY_HISTORY_LINK",
+    @JoinTable(name = "BL_BLACK_LIST_ENTRY_HISTORY_LINK",
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "HISTORY_ID"))
     @ManyToMany
@@ -73,15 +73,17 @@ public class BlackListEntry extends StandardEntity {
     protected String status;
 
     @MetaProperty
-    public Mark getMark() {
+    public Integer getMark() {
         DataManager dataManager = AppBeans.get(DataManager.class);
+
         List<Review> reviews = dataManager.load(Review.class)
                 .query("select r " +
-                        "from blacklist_Review r " +
+                        "from bl_Review r " +
                         "where r.entry.id = :id")
-                .parameter("id", getUuid())
+                .parameter("id", getId())
                 .list();
-        if(reviews.isEmpty()) return Mark.Neutral;
+
+        if(reviews.isEmpty()) return 0;
 
         int sum = 0;
 
@@ -89,7 +91,7 @@ public class BlackListEntry extends StandardEntity {
             sum += review.getMark().getId();
         }
 
-        return  Mark.fromId(sum / reviews.size());
+        return (sum / reviews.size());
     }
 
     public String getNickName() {

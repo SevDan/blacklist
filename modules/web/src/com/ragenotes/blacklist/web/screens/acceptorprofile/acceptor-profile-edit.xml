@@ -18,7 +18,7 @@
         <form id="form" dataContainer="acceptorProfileDc">
             <column width="250px">
                 <textField id="nameField" property="name"/>
-                <textField id="codeField" property="code"/>
+                <textField id="codeField" property="code" required="false"/>
                 <pickerField id="userField" property="user">
                     <actions>
                         <action id="lookup" type="picker_lookup"/>
@@ -36,7 +36,6 @@
                 <columns>
                     <column id="value"/>
                     <column id="type"/>
-                    <column id="code"/>
                     <column id="description"/>
                 </columns>
                 <buttonsPanel>

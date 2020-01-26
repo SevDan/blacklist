@@ -17,7 +17,6 @@
             <column width="250px">
                 <textField id="valueField" property="value"/>
                 <lookupField id="typeField" property="type" required="true"/>
-                <textField id="codeField" property="code" required="true"/>
                 <textField id="descriptionField" property="description"/>
             </column>
         </form>

@@ -9,7 +9,7 @@
                     view="_local">
             <loader id="playerIPsDl">
                 <query>
-                    <![CDATA[select e from blacklist_PlayerIP e]]>
+                    <![CDATA[select e from bl_PlayerIP e]]>
                 </query>
             </loader>
         </collection>
@@ -33,7 +33,6 @@
             </actions>
             <columns>
                 <column id="ip"/>
-                <column id="code"/>
                 <column id="fixationDate"/>
                 <column id="description"/>
             </columns>

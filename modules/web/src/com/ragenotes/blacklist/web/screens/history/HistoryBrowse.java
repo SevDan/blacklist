@@ -3,7 +3,7 @@ package com.ragenotes.blacklist.web.screens.history;
 import com.haulmont.cuba.gui.screen.*;
 import com.ragenotes.blacklist.entity.entries.History;
 
-@UiController("blacklist_History.browse")
+@UiController("bl_History.browse")
 @UiDescriptor("history-browse.xml")
 @LookupComponent("historiesTable")
 @LoadDataBeforeShow

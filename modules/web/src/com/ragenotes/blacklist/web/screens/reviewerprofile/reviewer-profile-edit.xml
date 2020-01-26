@@ -19,7 +19,7 @@
         <form id="form" dataContainer="reviewerProfileDc">
             <column width="250px">
                 <textField id="nameField" property="name"/>
-                <textField id="codeField" property="code"/>
+                <textField id="codeField" property="code" required="false"/>
                 <pickerField id="userField" property="user">
                     <actions>
                         <action id="lookup" type="picker_lookup"/>
@@ -38,7 +38,6 @@
                 <columns>
                     <column id="value"/>
                     <column id="type"/>
-                    <column id="code"/>
                     <column id="description"/>
                 </columns>
                 <buttonsPanel>
@@ -55,7 +54,6 @@
                 </actions>
                 <columns>
                     <column id="date"/>
-                    <column id="code"/>
                     <column id="mark"/>
                 </columns>
                 <buttonsPanel>
@@ -72,7 +70,6 @@
                 </actions>
                 <columns>
                     <column id="name"/>
-                    <column id="code"/>
                     <column id="description"/>
                     <column id="date"/>
                 </columns>

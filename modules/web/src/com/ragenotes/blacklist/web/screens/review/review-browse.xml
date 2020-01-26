@@ -6,10 +6,10 @@
     <data readOnly="true">
         <collection id="reviewsDc"
                     class="com.ragenotes.blacklist.entity.Review"
-                    view="_local">
+                    view="review-full">
             <loader id="reviewsDl">
                 <query>
-                    <![CDATA[select e from blacklist_Review e]]>
+                    <![CDATA[select e from bl_Review e]]>
                 </query>
             </loader>
         </collection>
@@ -25,15 +25,15 @@
         </filter>
         <groupTable id="reviewsTable"
                     width="100%"
-                    dataContainer="reviewsDc">
+                    dataContainer="reviewsDc" multiselect="true">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
+                <column id="entry"/>
                 <column id="date"/>
-                <column id="code"/>
                 <column id="mark"/>
             </columns>
             <rowsCount/>

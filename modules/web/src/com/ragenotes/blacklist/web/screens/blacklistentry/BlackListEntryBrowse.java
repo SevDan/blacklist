@@ -4,10 +4,10 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.gui.ScreenBuilders;
-import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.actions.list.CreateAction;
 import com.haulmont.cuba.gui.actions.list.EditAction;
-import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.components.Button;
+import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import com.ragenotes.blacklist.entity.ExtUser;
@@ -20,7 +20,7 @@ import com.ragenotes.blacklist.entity.profiles.VoterProfile;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@UiController("blacklist_BlackListEntry.browse")
+@UiController("bl_BlackListEntry.browse")
 @UiDescriptor("black-list-entry-browse.xml")
 @LoadDataBeforeShow
 public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
@@ -50,6 +50,9 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     private GroupTable<BlackListEntry> blackListEntriesTableReviewing;
     @Named("blackListEntriesTableAccept")
     private GroupTable<BlackListEntry> blackListEntriesTableAccept;
+    @Named("blackListEntriesTableReject")
+    private GroupTable<BlackListEntry> blackListEntriesTableReject;
+
     // buttons
     @Named("deleteBtnReject")
     private Button deleteBtnReject;
@@ -115,16 +118,13 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
         VoterProfile currentVoter = currentUser.getVoterProfile();
         ReviewerProfile currentReviewer = currentUser.getReviewerProfile();
 
-        if ((currentVoter == null || !entryVoter.getId().equals(currentVoter.getId())) &&
-                (currentReviewer == null || currentReviewer.getCode() == null)) return;
-
         if (currentVoter != null && entryVoter.getId().equals(currentVoter.getId())) {
             screenBuilders.editor(BlackListEntry.class, this)
                     .withScreenClass(BlackListEntryVote.class)
                     .editEntity(entry)
                     .build()
                     .show();
-        } else {
+        } else if (currentReviewer != null && currentReviewer.getCode() != null) {
             screenBuilders.editor(BlackListEntry.class, this)
                     .withScreenClass(BlackListEntryReview.class)
                     .editEntity(entry)
@@ -151,7 +151,7 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
 
     @Subscribe("blackListEntriesTableReject.revote")
     public void onRevoteRejectEntry(EditAction.ActionPerformedEvent event) {
-        BlackListEntry entry = blackListEntriesTableReviewing.getSingleSelected();
+        BlackListEntry entry = blackListEntriesTableReject.getSingleSelected();
         ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
         if (entry == null) return;
 

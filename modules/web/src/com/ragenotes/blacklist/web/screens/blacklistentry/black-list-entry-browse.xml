@@ -9,7 +9,7 @@
                     view="blackListEntry-full">
             <loader id="blackListEntriesVoteDl">
                 <query>
-                    <![CDATA[select e from blacklist_BlackListEntry e where e.status = :vote_status]]>
+                    <![CDATA[select e from bl_BlackListEntry e where e.status = :vote_status]]>
                 </query>
             </loader>
         </collection>
@@ -18,7 +18,7 @@
                     view="blackListEntry-full">
             <loader id="blackListEntriesReviewDl">
                 <query>
-                    <![CDATA[select e from blacklist_BlackListEntry e where e.status = :review_status]]>
+                    <![CDATA[select e from bl_BlackListEntry e where e.status = :review_status]]>
                 </query>
             </loader>
         </collection>
@@ -27,7 +27,7 @@
                     view="blackListEntry-full">
             <loader id="blackListEntriesAcceptDl">
                 <query>
-                    <![CDATA[select e from blacklist_BlackListEntry e where e.status = :accept_status]]>
+                    <![CDATA[select e from bl_BlackListEntry e where e.status = :accept_status]]>
                 </query>
             </loader>
         </collection>
@@ -36,7 +36,7 @@
                     view="blackListEntry-full">
             <loader id="blackListEntriesRejectedDl">
                 <query>
-                    <![CDATA[select e from blacklist_BlackListEntry e where e.status = :rejected_status]]>
+                    <![CDATA[select e from bl_BlackListEntry e where e.status = :rejected_status]]>
                 </query>
             </loader>
         </collection>
@@ -45,7 +45,7 @@
                     view="blackListEntry-full">
             <loader id="blackListEntriesAcceptedDl">
                 <query>
-                    <![CDATA[select e from blacklist_BlackListEntry e where e.status = :accepted_status]]>
+                    <![CDATA[select e from bl_BlackListEntry e where e.status = :accepted_status]]>
                 </query>
             </loader>
         </collection>
@@ -57,7 +57,7 @@
             <tab id="accepted" caption="msg://accepted" spacing="true" expand="blackListEntriesTableAccepted">
                 <filter id="filterAccepted"
                         applyTo="blackListEntriesTableAccepted"
-                        dataLoader="blackListEntriesAcceptedDl">
+                        dataLoader="blackListEntriesAcceptedDl" margin="true,false,false,false">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="blackListEntriesTableAccepted"
@@ -90,7 +90,7 @@
             <tab id="vote" caption="msg://voting" spacing="true" expand="blackListEntriesTableVote">
                 <filter id="filterVote"
                         applyTo="blackListEntriesTableVote"
-                        dataLoader="blackListEntriesVoteDl">
+                        dataLoader="blackListEntriesVoteDl" margin="true,false,false,false">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="blackListEntriesTableVote"
@@ -127,7 +127,7 @@
             <tab id="review" caption="msg://reviewing" spacing="true" expand="blackListEntriesTableReview">
                 <filter id="filterReview"
                         applyTo="blackListEntriesTableReview"
-                        dataLoader="blackListEntriesReviewDl">
+                        dataLoader="blackListEntriesReviewDl" margin="true,false,false,false">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="blackListEntriesTableReview"
@@ -164,7 +164,7 @@
             <tab id="accept" caption="msg://accepting" spacing="true" expand="blackListEntriesTableAccept">
                 <filter id="filterAccept"
                         applyTo="blackListEntriesTableAccept"
-                        dataLoader="blackListEntriesAcceptDl">
+                        dataLoader="blackListEntriesAcceptDl" margin="true,false,false,false">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="blackListEntriesTableAccept"
@@ -200,7 +200,7 @@
             <tab id="rejected" caption="msg://rejected" spacing="true" expand="blackListEntriesTableReject">
                 <filter id="filterReject"
                         applyTo="blackListEntriesTableReject"
-                        dataLoader="blackListEntriesRejectedDl">
+                        dataLoader="blackListEntriesRejectedDl" margin="true,false,false,false">
                     <properties include=".*"/>
                 </filter>
                 <groupTable id="blackListEntriesTableReject"

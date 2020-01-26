@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
 
-    <view entity="blacklist_BlackListEntry" name="blackListEntry-full" extends="_local">
+    <view class="com.ragenotes.blacklist.entity.entries.BlackListEntry" name="blackListEntry-full" extends="_local">
         <property name="contacts" view="_local"/>
         <property name="acceptor" view="_local"/>
         <property name="histories" view="_local"/>
@@ -9,24 +9,24 @@
         <property name="playerIps" view="_local"/>
     </view>
 
-    <view entity="blacklist_AcceptorProfile" name="acceptorProfile-full" extends="_local">
+    <view class="com.ragenotes.blacklist.entity.profiles.AcceptorProfile" name="acceptorProfile-full" extends="_local">
         <property name="contacts" view="_local"/>
         <property name="acceptedEntries" view="_local"/>
-        <property name="user" view="_minimal"/>
+        <property name="user" view="_local"/>
     </view>
-    <view entity="blacklist_ReviewerProfile" name="reviewerProfile-full" extends="_local">
-        <property name="user" view="_minimal"/>
+    <view class="com.ragenotes.blacklist.entity.profiles.ReviewerProfile" name="reviewerProfile-full" extends="_local">
+        <property name="user" view="_local"/>
         <property name="contacts" view="_local"/>
         <property name="histories" view="_local"/>
         <property name="averageMark"/>
         <property name="reviews" view="_local"/>
     </view>
-    <view entity="blacklist_VoterProfile" name="voterProfile-full" extends="_local">
-        <property name="user" view="_minimal"/>
+    <view class="com.ragenotes.blacklist.entity.profiles.VoterProfile" name="voterProfile-full" extends="_local">
+        <property name="user" view="_local"/>
         <property name="contacts" view="_local"/>
         <property name="votedEntries" view="_local"/>
     </view>
-    <view entity="blacklist_ExtUser" name="extUser-full" extends="_minimal">
+    <view class="com.ragenotes.blacklist.entity.ExtUser" name="extUser-full" extends="_minimal">
         <property name="login"/>
         <property name="name"/>
         <property name="email"/>
@@ -45,8 +45,9 @@
         <property name="substitutions" view="_minimal"/>
         <property name="position"/>
     </view>
-    <view entity="blacklist_Review" name="review-full" extends="_local">
+    <view class="com.ragenotes.blacklist.entity.Review" name="review-full" extends="_local">
         <property name="entry" view="_local"/>
+        <property name="createdBy"/>
+        <property name="author" view="reviewerProfile-full"/>
     </view>
-
 </views>

@@ -12,7 +12,6 @@ public enum ContactType implements EnumClass<String> {
     Skype("skype"),
     Telegram("telegram"),
     EMail("e-mail"),
-    Address("address"),
     Instagram("instagram"),
     PhoneNumber("phoneNumber");
 

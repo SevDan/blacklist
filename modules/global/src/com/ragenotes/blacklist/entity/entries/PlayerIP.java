@@ -9,17 +9,14 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @NamePattern("%s|ip")
-@Table(name = "BLACKLIST_PLAYER_IP")
-@Entity(name = "blacklist_PlayerIP")
+@Table(name = "BL_PLAYER_IP")
+@Entity(name = "bl_PlayerIP")
 public class PlayerIP extends StandardEntity {
 
     private static final long serialVersionUID = -8143449229008867090L;
 
     @Column(name = "IP")
     protected String ip;
-
-    @Column(name = "CODE", nullable = false, length = 100)
-    protected String code;
 
     @Column(name = "FIXATION_DATE")
     protected Date fixationDate;
@@ -33,14 +30,6 @@ public class PlayerIP extends StandardEntity {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Date getFixationDate() {

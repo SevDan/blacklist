@@ -7,5 +7,14 @@
     <context:component-scan base-package="com.ragenotes.blacklist"/>
     
     <gui:screens base-packages="com.ragenotes.blacklist.web.screens"/>
+    <bean id="bl_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="bl_ReviewsService" value="com.ragenotes.blacklist.service.ReviewsService"/>
+                <entry key="bl_CodeGeneratorService" value="com.ragenotes.blacklist.service.CodeGeneratorService"/>
+            </map>
+        </property>
+    </bean>
 
 </beans>

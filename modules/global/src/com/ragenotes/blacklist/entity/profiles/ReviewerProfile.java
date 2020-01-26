@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamePattern("%s|name")
-@Table(name = "BLACKLIST_REVIEWER_PROFILE")
-@Entity(name = "blacklist_ReviewerProfile")
+@Table(name = "BL_REVIEWER_PROFILE")
+@Entity(name = "bl_ReviewerProfile")
 public class ReviewerProfile extends StandardEntity {
 
     private static final long serialVersionUID = 9202138315757837393L;
@@ -26,19 +26,19 @@ public class ReviewerProfile extends StandardEntity {
     @Column(name = "CODE", nullable = false, length = 100)
     protected String code;
 
-    @JoinTable(name = "BLACKLIST_REVIEWER_PROFILE_CONTACT_LINK",
+    @JoinTable(name = "BL_REVIEWER_PROFILE_CONTACT_LINK",
             joinColumns = @JoinColumn(name = "PROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "CONTACT_ID"))
     @ManyToMany
     protected List<Contact> contacts;
 
-    @JoinTable(name = "BLACKLIST_REVIEWER_PROFILE_REVIEW_LINK",
+    @JoinTable(name = "BL_REVIEWER_PROFILE_REVIEW_LINK",
             joinColumns = @JoinColumn(name = "PROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "REVIEW_ID"))
     @ManyToMany
     protected List<Review> reviews = new ArrayList<>();
 
-    @JoinTable(name = "BLACKLIST_REVIEWER_PROFILE_HISTORY_LINK",
+    @JoinTable(name = "BL_REVIEWER_PROFILE_HISTORY_LINK",
             joinColumns = @JoinColumn(name = "PROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "HISTORY_ID"))
     @ManyToMany

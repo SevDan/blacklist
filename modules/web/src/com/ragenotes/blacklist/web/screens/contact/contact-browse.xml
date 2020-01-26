@@ -9,7 +9,7 @@
                     view="_local">
             <loader id="contactsDl">
                 <query>
-                    <![CDATA[select e from blacklist_Contact e]]>
+                    <![CDATA[select e from bl_Contact e]]>
                 </query>
             </loader>
         </collection>
@@ -34,7 +34,6 @@
             <columns>
                 <column id="value"/>
                 <column id="type"/>
-                <column id="code"/>
                 <column id="description"/>
             </columns>
             <rowsCount/>
