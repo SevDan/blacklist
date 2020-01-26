@@ -11,16 +11,16 @@
           name="jdbc/CubaDS"
           password=""
           type="javax.sql.DataSource"
-          url="jdbc:hsqldb:hsql://localhost:9001/bl"
+          url="jdbc:hsqldb:hsql://localhost:9010/bl"
           username="sa"/>-->
-    <Resource driverClassName="org.hsqldb.jdbc.JDBCDriver"
+    <Resource driverClassName="org.postgresql.Driver"
               maxIdle="2"
               maxTotal="20"
               maxWaitMillis="5000"
               name="jdbc/CubaDS"
-              password=""
+              password="root"
               type="javax.sql.DataSource"
-              url="jdbc:hsqldb:hsql://localhost:9010/bl"
-              username="sa"/>
+              url="jdbc:postgresql://localhost/bl"
+              username="root"/>
 
 </Context>

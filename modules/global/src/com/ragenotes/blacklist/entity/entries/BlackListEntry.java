@@ -13,6 +13,7 @@ import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
 import com.ragenotes.blacklist.entity.profiles.VoterProfile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NamePattern("%s %s|fullName,nickName")
@@ -47,19 +48,19 @@ public class BlackListEntry extends StandardEntity {
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "CONTACT_ID"))
     @ManyToMany
-    protected List<Contact> contacts;
+    protected List<Contact> contacts = new ArrayList<>();
 
     @JoinTable(name = "BL_BLACK_LIST_ENTRY_PLAYER_IP_LINK",
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "PLAYERIP_ID"))
     @ManyToMany
-    protected List<PlayerIP> playerIps;
+    protected List<PlayerIP> playerIps = new ArrayList<>();
 
     @JoinTable(name = "BL_BLACK_LIST_ENTRY_HISTORY_LINK",
             joinColumns = @JoinColumn(name = "BLACKLISTENTRY_ID"),
             inverseJoinColumns = @JoinColumn(name = "HISTORY_ID"))
     @ManyToMany
-    protected List<History> histories;
+    protected List<History> histories = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCEPTOR_ID")

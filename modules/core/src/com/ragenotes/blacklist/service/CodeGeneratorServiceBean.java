@@ -17,24 +17,35 @@ public class CodeGeneratorServiceBean implements CodeGeneratorService {
 
     @Override
     public String generateEntryCode(BlackListEntry entry) {
+        if(entry == null) return "";
+
         return aggregateStrings(entry.getFirstName(), entry.getSecondName(), entry.getLastName(),
                 entry.getFullName(), entry.getNickName());
     }
 
     @Override
     public String generateReviewerCode(ReviewerProfile profile) {
+        if(profile == null) return "";
+        if(profile.getUser() == null) return aggregateStrings(profile.getName(), "[without user]");
+
         return aggregateStrings(profile.getName(), profile.getUser().getFirstName(),
                 profile.getUser().getLastName());
     }
 
     @Override
     public String generateVoterCode(VoterProfile profile) {
+        if(profile == null) return "";
+        if(profile.getUser() == null) return aggregateStrings(profile.getName(), "[without user]");
+
         return aggregateStrings(profile.getName(), profile.getUser().getFirstName(),
                 profile.getUser().getLastName());
     }
 
     @Override
     public String generateAcceptorCode(AcceptorProfile profile) {
+        if(profile == null) return "";
+        if(profile.getUser() == null) return aggregateStrings(profile.getName(), "[without user]");
+
         return aggregateStrings(profile.getName(), profile.getUser().getFirstName(),
                 profile.getUser().getLastName());
     }

@@ -12,12 +12,18 @@ import com.haulmont.cuba.gui.components.data.value.DatasourceValueSource;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
+import com.ragenotes.blacklist.entity.Contact;
 import com.ragenotes.blacklist.entity.ExtUser;
 import com.ragenotes.blacklist.entity.Review;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.entries.EntryStatus;
+import com.ragenotes.blacklist.entity.entries.History;
+import com.ragenotes.blacklist.entity.entries.PlayerIP;
 import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
 import com.ragenotes.blacklist.service.ReviewsService;
+import com.ragenotes.blacklist.web.screens.contact.ContactEdit;
+import com.ragenotes.blacklist.web.screens.history.HistoryEdit;
+import com.ragenotes.blacklist.web.screens.playerip.PlayerIPEdit;
 import com.ragenotes.blacklist.web.screens.review.ReviewEdit;
 import jdk.jfr.Name;
 
@@ -54,6 +60,16 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     private CollectionContainer<Review> reviewDc;
     @Named("acceptanceAvailable")
     private CheckBox acceptanceAvailableCheckBox;
+    @Named("form")
+    private Form form;
+    @Named("historiesDc")
+    private CollectionContainer<History> historiesDc;
+    @Named("playerIpsDc")
+    private CollectionContainer<PlayerIP> playerIpsDc;
+    @Named("contactsDc")
+    private CollectionContainer<Contact> contactsDc;
+
+    private Boolean isAccepted = false;
 
     private ReviewerProfile reviewer;
 
@@ -73,12 +89,17 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
             this.closeWithDiscard();
         }
 
-        checkAlreadyReviewed();
-        reviewDc.addCollectionChangeListener(e -> {
+        if(!isAccepted) {
             checkAlreadyReviewed();
-        });
+            reviewDc.addCollectionChangeListener(e -> {
+                checkAlreadyReviewed();
+            });
 
-        checkReviewStatus();
+            checkReviewStatus();
+        } else {
+            form.setEditable(false);
+            createBtn.setVisible(false);
+        }
     }
 
     @Subscribe("reviewsTable.create")
@@ -91,9 +112,54 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .withScreenClass(ReviewEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    reviewsDl.load();
-                    checkAlreadyReviewed();
-                    checkReviewStatus();
+                    if(e.getCloseAction().equals(WINDOW_COMMIT_AND_CLOSE_ACTION)) {
+                        reviewsDl.load();
+                        checkAlreadyReviewed();
+                        checkReviewStatus();
+                    }
+                })
+                .build()
+                .show();
+    }
+
+    @Subscribe("historiesTable.add")
+    private void onHistoriesAdd(Action.ActionPerformedEvent event) {
+        screenBuilders.editor(History.class, this)
+                .newEntity()
+                .withScreenClass(HistoryEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .withAfterCloseListener(e -> {
+                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                        historiesDc.getMutableItems().add(e.getSource().getEditedEntity());
+                    }
+                })
+                .show();
+    }
+
+    @Subscribe("playerIpsTable.add")
+    private void onPlayerIPAdd(Action.ActionPerformedEvent event) {
+        screenBuilders.editor(PlayerIP.class, this)
+                .newEntity()
+                .withScreenClass(PlayerIPEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .withAfterCloseListener(e -> {
+                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                        playerIpsDc.getMutableItems().add(e.getSource().getEditedEntity());
+                    }
+                })
+                .show();
+    }
+
+    @Subscribe("contactsTable.add")
+    private void onContactAdd(Action.ActionPerformedEvent event) {
+        screenBuilders.editor(Contact.class, this)
+                .newEntity()
+                .withScreenClass(ContactEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .withAfterCloseListener(e -> {
+                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                        contactsDc.getMutableItems().add(e.getSource().getEditedEntity());
+                    }
                 })
                 .build()
                 .show();
@@ -115,5 +181,13 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
         if(reviewsService.getExistsReview(reviewer, getEditedEntity()) != null) {
             createBtn.setEnabled(false);
         }
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
     }
 }

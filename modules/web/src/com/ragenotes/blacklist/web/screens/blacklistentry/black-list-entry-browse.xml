@@ -64,6 +64,7 @@
                             width="100%" height="80%"
                             dataContainer="blackListEntriesAcceptedDc">
                     <actions>
+                        <action id="edit" type="edit" caption="msg://caption.details"/>
                         <action id="refresh" type="refresh"/>
                         <action id="excel" type="excel"/>
                     </actions>
@@ -82,6 +83,7 @@
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelAccepted"
                                   alwaysVisible="true">
+                        <button id="editBtnAccepted" action="blackListEntriesTableAccepted.edit"/>
                         <button id="refreshBtnAccepted" action="blackListEntriesTableAccepted.refresh"/>
                         <button id="excelBtnAccepted" action="blackListEntriesTableAccepted.excel"/>
                     </buttonsPanel>

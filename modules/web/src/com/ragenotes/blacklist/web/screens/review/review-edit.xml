@@ -21,7 +21,7 @@
                         <action id="clear" type="picker_clear"/>
                     </actions>
                 </pickerField>
-                <dateField id="dateField" property="date"/>
+                <dateField id="dateField" property="date" editable="false"/>
                 <lookupField id="markField" property="mark" required="true"/>
             </column>
         </form>

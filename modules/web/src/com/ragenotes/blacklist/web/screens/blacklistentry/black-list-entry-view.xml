@@ -3,7 +3,7 @@
         caption="msg://editorCaption"
         focusComponent="split"
         messagesPack="com.ragenotes.blacklist.web.screens.blacklistentry">
-    <data>
+    <data readOnly="true">
         <instance id="blackListEntryDc"
                   class="com.ragenotes.blacklist.entity.entries.BlackListEntry"
                   view="blackListEntry-full">
@@ -40,7 +40,7 @@
                                   editable="false" resizable="true"/>
                         <pickerField id="acceptorField" property="acceptor" editable="false"/>
                         <pickerField id="voterField" property="voter" editable="false"/>
-                        <lookupField id="statusField" property="status" required="true"/>
+                        <lookupField id="statusField" property="status" editable="false"/>
                         <textField id="markField" property="mark" editable="false"/>
                     </column>
                 </form>
@@ -48,13 +48,13 @@
             <vbox id="entitiesBox" spacing="true" expand="scrollBox" margin="true,true,true,true">
                 <scrollBox id="scrollBox" spacing="true" width="100%">
                     <table id="reviewsTable" caption="msg://caption.reviews" dataContainer="reviewsDc"
-                           width="100%" height="300px">
+                           width="100%" height="300px" textSelectionEnabled="true">
                         <actions>
                             <action id="refresh" type="refresh"/>
                         </actions>
                         <columns>
                             <column id="mark"/>
-                            <column id="author.name" caption="msg://caption.author"/>
+                            <column id="createdBy" caption="msg://caption.author"/>
                             <column id="date"/>
                         </columns>
                         <buttonsPanel>
@@ -63,34 +63,51 @@
                         <rows/>
                     </table>
                     <table id="contactsTable" dataContainer="contactsDc"
-                           width="100%" height="200px" caption="msg://caption.contacts">
+                           width="100%" height="200px" caption="msg://caption.contacts" textSelectionEnabled="true">
+                        <actions>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
                         <columns>
                             <column id="value"/>
                             <column id="type"/>
                             <column id="description"/>
                         </columns>
+                        <buttonsPanel>
+                            <button action="contactsTable.refresh"/>
+                        </buttonsPanel>
                     </table>
                     <table id="playerIpsTable" dataContainer="playerIpsDc" width="100%" height="200px"
-                           caption="msg://caption.playerIps">
+                           caption="msg://caption.playerIps" textSelectionEnabled="true">
+                        <actions>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
                         <columns>
                             <column id="ip"/>
                             <column id="fixationDate"/>
                             <column id="description"/>
                         </columns>
+                        <buttonsPanel>
+                            <button action="playerIpsTable.refresh"/>
+                        </buttonsPanel>
                     </table>
                     <table id="historiesTable" dataContainer="historiesDc" width="100%" height="200px"
-                           caption="msg://caption.histories">
+                           caption="msg://caption.histories" textSelectionEnabled="true">
+                        <actions>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
                         <columns>
                             <column id="name"/>
                             <column id="description"/>
                             <column id="date"/>
                         </columns>
+                        <buttonsPanel>
+                            <button action="historiesTable.refresh"/>
+                        </buttonsPanel>
                     </table>
                 </scrollBox>
             </vbox>
         </split>
         <hbox id="editActions" spacing="true">
-            <button action="windowCommitAndClose"/>
             <button action="windowClose"/>
         </hbox>
     </layout>

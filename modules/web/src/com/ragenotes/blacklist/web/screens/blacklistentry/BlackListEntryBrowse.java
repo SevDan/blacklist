@@ -23,6 +23,7 @@ import javax.inject.Named;
 @UiController("bl_BlackListEntry.browse")
 @UiDescriptor("black-list-entry-browse.xml")
 @LoadDataBeforeShow
+@LookupComponent("blackListEntriesTableAccepted")
 public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
 
     @Inject
@@ -50,6 +51,8 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     private GroupTable<BlackListEntry> blackListEntriesTableReviewing;
     @Named("blackListEntriesTableAccept")
     private GroupTable<BlackListEntry> blackListEntriesTableAccept;
+    @Named("blackListEntriesTableAccepted")
+    private GroupTable<BlackListEntry> blackListEntriesTableAccepted;
     @Named("blackListEntriesTableReject")
     private GroupTable<BlackListEntry> blackListEntriesTableReject;
 
@@ -181,5 +184,30 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
                 .editEntity(entry)
                 .build()
                 .show();
+    }
+
+    @Subscribe("blackListEntriesTableAccepted.edit")
+    public void onAcceptedEntry(EditAction.ActionPerformedEvent event) {
+        BlackListEntry entry = blackListEntriesTableAccepted.getSingleSelected();
+        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        if(entry == null) return;
+
+        ReviewerProfile reviewerProfile = currentUser.getReviewerProfile();
+        if(reviewerProfile == null) {
+            screenBuilders.editor(BlackListEntry.class, this)
+                    .withScreenClass(BlackListEntryView.class)
+                    .editEntity(entry)
+                    .build()
+                    .show();
+        } else {
+            BlackListEntryReview editScreen = screenBuilders.editor(BlackListEntry.class, this)
+                    .withScreenClass(BlackListEntryReview.class)
+                    .editEntity(entry)
+                    .build();
+
+            editScreen.setAccepted(true);
+
+            editScreen.show();
+        }
     }
 }

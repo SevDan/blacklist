@@ -42,7 +42,7 @@ dependencies {
     appComponent('com.haulmont.addon.restapi:restapi-global:7.1.1')
 }
 
-def hsql = 'org.hsqldb:hsqldb:2.4.1'
+def postgres = 'org.postgresql:postgresql:42.2.5'
 
 configure([globalModule, coreModule, webModule]) {
     apply(plugin: 'java')
@@ -88,8 +88,8 @@ configure(coreModule) {
     dependencies {
         compile(globalModule)
         compileOnly(servletApi)
-        jdbc(hsql)
-        testRuntime(hsql)
+        jdbc(postgres)
+        testRuntime(postgres)
     }
 
     task cleanConf(description: 'Cleans up conf directory') {
@@ -109,19 +109,19 @@ configure(coreModule) {
     }
 
     task createDb(dependsOn: assembleDbScripts, description: 'Creates local database', type: CubaDbCreation) {
-        dbms = 'hsql'
-        host = 'localhost:9010'
+        dbms = 'postgres'
+        host = 'localhost'
         dbName = 'bl'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbUser = 'root'
+        dbPassword = 'root'
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
-        dbms = 'hsql'
-        host = 'localhost:9010'
+        dbms = 'postgres'
+        host = 'localhost'
         dbName = 'bl'
-        dbUser = 'sa'
-        dbPassword = ''
+        dbUser = 'root'
+        dbPassword = 'root'
     }
 }
 

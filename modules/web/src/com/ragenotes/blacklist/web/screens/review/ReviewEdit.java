@@ -1,5 +1,6 @@
 package com.ragenotes.blacklist.web.screens.review;
 
+import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.screen.*;
@@ -23,6 +24,8 @@ public class ReviewEdit extends StandardEditor<Review> {
     private Notifications notifications;
     @Inject
     private MessageBundle messageBundle;
+    @Inject
+    private TimeSource timeSource;
 
     @Named("form.entryField")
     private PickerField<BlackListEntry> entryField;
@@ -41,6 +44,8 @@ public class ReviewEdit extends StandardEditor<Review> {
                 alreadyReviewedNotification();
             }
         });
+
+        getEditedEntity().setDate(timeSource.currentTimestamp());
 
         initBeforeShowPreconditions();
     }
