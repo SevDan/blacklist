@@ -26,8 +26,10 @@
                 width="800"/>
     <layout expand="split" spacing="true">
         <split id="split" orientation="horizontal">
-            <vbox id="dataBox" spacing="true" margin="true,true,true,true" height="100%" width="100%" expand="scrollBox">
-                <scrollBox id="scrollBox" scrollBars="vertical" width="100%" spacing="true" margin="true,true,true,true">
+            <vbox id="dataBox" spacing="true" margin="true,true,true,true" height="100%" width="100%"
+                  expand="scrollBox">
+                <scrollBox id="scrollBox" scrollBars="vertical" width="100%" spacing="true"
+                           margin="true,true,true,true">
                     <form id="form" dataContainer="blackListEntryDc" width="100%">
                         <column width="100%">
                             <textField id="nickNameField" property="nickName"/>
@@ -36,8 +38,8 @@
                             <textField id="secondNameField" property="secondName"/>
                             <textField id="lastNameField" property="lastName"/>
                             <textField id="codeField" property="code" editable="false"/>
-                            <textArea id="descriptionField" property="description" width="100%" rows="5"
-                                      resizable="true"/>
+                            <richTextArea id="descriptionField" property="description" width="100%" height="450px"
+                                          responsive="true"/>
                             <textField id="voterField" property="voter" editable="false"/>
                             <lookupField id="statusField" property="status" required="true"/>
                             <textField id="markField" property="mark" editable="false"/>

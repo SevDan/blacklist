@@ -36,8 +36,8 @@
                         <textField id="secondNameField" property="secondName" editable="false"/>
                         <textField id="lastNameField" property="lastName" editable="false"/>
                         <textField id="codeField" property="code" editable="false"/>
-                        <textArea id="descriptionField" property="description" width="100%" rows="7"
-                                  editable="false" resizable="true"/>
+                        <richTextArea id="descriptionField" property="description" width="100%" height="450px"
+                                  editable="false" responsive="true"/>
                         <pickerField id="acceptorField" property="acceptor" editable="false"/>
                         <pickerField id="voterField" property="voter" editable="false"/>
                         <lookupField id="statusField" property="status" required="true"/>

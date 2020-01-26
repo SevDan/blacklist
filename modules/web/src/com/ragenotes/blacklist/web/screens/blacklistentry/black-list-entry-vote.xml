@@ -26,7 +26,8 @@
                         <textField id="secondNameField" property="secondName"/>
                         <textField id="lastNameField" property="lastName"/>
                         <textField id="codeField" property="code" required="false"/>
-                        <textArea id="descriptionField" property="description" width="100%" rows="10" resizable="true"/>
+                        <richTextArea id="descriptionField" property="description" width="100%" height="450px"
+                                      responsive="true"/>
                         <textField id="voterField" property="voter" editable="false"/>
                         <lookupField id="statusField" property="status" required="true"/>
                     </column>
