@@ -10,12 +10,12 @@
             <loader/>
         </instance>
     </data>
-    <dialogMode height="AUTO" width="AUTO"/>
+    <dialogMode height="AUTO" width="700px" resizable="true"/>
     <layout expand="editActions" spacing="true">
-        <form id="form" dataContainer="historyDc">
-            <column width="250px">
+        <form id="form" dataContainer="historyDc" width="100%">
+            <column width="100%">
                 <textField id="nameField" property="name" required="true"/>
-                <textArea id="descriptionField" property="description" rows="4"/>
+                <richTextArea id="descriptionField" property="description" height="300px"/>
                 <dateField id="dateField" property="date"/>
             </column>
         </form>
