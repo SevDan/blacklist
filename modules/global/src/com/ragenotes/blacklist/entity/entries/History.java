@@ -16,6 +16,7 @@ public class History extends StandardEntity {
     @Column(name = "NAME")
     protected String name;
 
+    @Lob
     @Column(name = "DESCRIPTION")
     protected String description;
 

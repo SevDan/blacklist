@@ -30,6 +30,7 @@
                                       responsive="true"/>
                         <textField id="voterField" property="voter" editable="false"/>
                         <lookupField id="statusField" property="status" required="true"/>
+                        <textField property="number" editable="false"/>
                     </column>
                 </form>
             </vbox>

@@ -1,8 +1,10 @@
 package com.ragenotes.blacklist.web.screens.blacklistentry;
 
 import com.google.common.base.Strings;
+import com.haulmont.cuba.core.app.UniqueNumbersService;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
+import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
@@ -30,6 +32,8 @@ import java.util.Arrays;
 @LoadDataBeforeShow
 public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
 
+    private static final String NUMBERS_DOMAIN = "blackListEntrynumber";
+
     @Inject
     private UserSessionSource sessionSource;
     @Inject
@@ -38,6 +42,8 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
     private CodeGeneratorService codeGeneratorService;
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private UniqueNumbersService uniqueNumbersService;
 
     @Named("statusField")
     private LookupField<EntryStatus> statusField;
@@ -62,6 +68,10 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
         if (Strings.isNullOrEmpty(getEditedEntity().getCode())) {
             getEditedEntity().setCode(codeGeneratorService.generateEntryCode(getEditedEntity()));
         }
+
+        if (PersistenceHelper.isNew(getEditedEntity())) {
+            getEditedEntity().setNumber(uniqueNumbersService.getNextNumber(NUMBERS_DOMAIN));
+        }
     }
 
     @Subscribe("historiesTable.add")
@@ -71,7 +81,7 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
                 .withScreenClass(HistoryEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         historiesDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })
@@ -85,7 +95,7 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
                 .withScreenClass(PlayerIPEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         playerIpsDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })
@@ -99,7 +109,7 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
                 .withScreenClass(ContactEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         contactsDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })

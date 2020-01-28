@@ -41,6 +41,7 @@ public class BlackListEntry extends StandardEntity {
     @Column(name = "CODE", nullable = false, length = 100)
     protected String code;
 
+    @Lob
     @Column(name = "DESCRIPTION")
     protected String description;
 
@@ -72,6 +73,9 @@ public class BlackListEntry extends StandardEntity {
 
     @Column(name = "STATUS")
     protected String status;
+
+    @Column(name = "NUMBER")
+    protected Long number;
 
     @MetaProperty
     public Integer getMark() {
@@ -197,5 +201,13 @@ public class BlackListEntry extends StandardEntity {
 
     public void setStatus(EntryStatus status) {
         this.status = status == null ? null : status.getId();
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 }

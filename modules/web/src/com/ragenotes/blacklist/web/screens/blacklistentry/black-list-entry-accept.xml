@@ -42,6 +42,7 @@
                         <pickerField id="voterField" property="voter" editable="false"/>
                         <lookupField id="statusField" property="status" required="true"/>
                         <textField id="markField" property="mark" editable="false"/>
+                        <textField property="number" editable="false"/>
                     </column>
                 </form>
             </vbox>

@@ -20,7 +20,7 @@ public class Contact extends StandardEntity {
     @Column(name = "TYPE_")
     protected String type;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", length = 1024)
     protected String description;
 
     public String getValue() {

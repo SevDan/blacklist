@@ -21,7 +21,7 @@ public class PlayerIP extends StandardEntity {
     @Column(name = "FIXATION_DATE")
     protected Date fixationDate;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", length = 1024)
     protected String description;
 
     public String getIp() {

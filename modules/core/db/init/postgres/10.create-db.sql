@@ -19,6 +19,7 @@ create table BL_BLACK_LIST_ENTRY (
     ACCEPTOR_ID uuid,
     VOTER_ID uuid,
     STATUS varchar(50),
+    NUMBER bigint,
     --
     primary key (ID)
 )^

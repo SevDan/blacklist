@@ -45,6 +45,7 @@
                             <textField id="markField" property="mark" editable="false"/>
                             <checkBox id="acceptanceAvailable" caption="msg://caption.acceptanceAvailable"
                                       editable="false"/>
+                            <textField property="number" editable="false"/>
                         </column>
                     </form>
                     <table id="contactsTable" dataContainer="contactsDc" width="100%" height="200px"
