@@ -27,24 +27,26 @@
     <layout expand="split" spacing="true">
         <split id="split" orientation="horizontal">
             <vbox id="formBox" spacing="true" margin="true,true,true,true"
-                  width="100%" height="100%">
-                <form id="form" dataContainer="blackListEntryDc" width="100%">
-                    <column width="100%">
-                        <textField id="nickNameField" property="nickName" editable="false"/>
-                        <textField id="fullNameField" property="fullName" editable="false"/>
-                        <textField id="firstNameField" property="firstName" editable="false"/>
-                        <textField id="secondNameField" property="secondName" editable="false"/>
-                        <textField id="lastNameField" property="lastName" editable="false"/>
-                        <textField id="codeField" property="code" editable="false"/>
-                        <richTextArea id="descriptionField" property="description" width="100%" height="450px"
-                                  editable="false" responsive="true"/>
-                        <pickerField id="acceptorField" property="acceptor" editable="false"/>
-                        <pickerField id="voterField" property="voter" editable="false"/>
-                        <lookupField id="statusField" property="status" editable="false"/>
-                        <textField id="markField" property="mark" editable="false"/>
-                        <textField property="number" editable="false"/>
-                    </column>
-                </form>
+                  width="100%" height="100%" expand="formScrollBox">
+                <scrollBox id="formScrollBox" spacing="true" width="100%">
+                    <form id="form" dataContainer="blackListEntryDc" width="100%">
+                        <column width="100%">
+                            <textField id="nickNameField" property="nickName" editable="false"/>
+                            <textField id="fullNameField" property="fullName" editable="false"/>
+                            <textField id="firstNameField" property="firstName" editable="false"/>
+                            <textField id="secondNameField" property="secondName" editable="false"/>
+                            <textField id="lastNameField" property="lastName" editable="false"/>
+                            <textField id="codeField" property="code" editable="false"/>
+                            <richTextArea id="descriptionField" property="description" width="100%" height="450px"
+                                          editable="false" responsive="true"/>
+                            <pickerField id="acceptorField" property="acceptor" editable="false"/>
+                            <pickerField id="voterField" property="voter" editable="false"/>
+                            <lookupField id="statusField" property="status" editable="false"/>
+                            <textField id="markField" property="mark" editable="false"/>
+                            <textField property="number" editable="false"/>
+                        </column>
+                    </form>
+                </scrollBox>
             </vbox>
             <vbox id="entitiesBox" spacing="true" expand="scrollBox" margin="true,true,true,true">
                 <scrollBox id="scrollBox" spacing="true" width="100%">
@@ -52,6 +54,8 @@
                            width="100%" height="300px" textSelectionEnabled="true">
                         <actions>
                             <action id="refresh" type="refresh"/>
+                            <action id="details" caption="msg://caption.details"/>
+                            <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="mark"/>
@@ -59,7 +63,9 @@
                             <column id="date"/>
                         </columns>
                         <buttonsPanel>
+                            <button action="reviewsTable.details"/>
                             <button action="reviewsTable.refresh"/>
+                            <button action="reviewsTable.excel"/>
                         </buttonsPanel>
                         <rows/>
                     </table>
@@ -67,6 +73,8 @@
                            width="100%" height="200px" caption="msg://caption.contacts" textSelectionEnabled="true">
                         <actions>
                             <action id="refresh" type="refresh"/>
+                            <action id="details" caption="msg://caption.details"/>
+                            <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="value"/>
@@ -74,13 +82,17 @@
                             <column id="description"/>
                         </columns>
                         <buttonsPanel>
+                            <button action="contactsTable.details"/>
                             <button action="contactsTable.refresh"/>
+                            <button action="contactsTable.excel"/>
                         </buttonsPanel>
                     </table>
                     <table id="playerIpsTable" dataContainer="playerIpsDc" width="100%" height="200px"
                            caption="msg://caption.playerIps" textSelectionEnabled="true">
                         <actions>
                             <action id="refresh" type="refresh"/>
+                            <action id="details" caption="msg://caption.details"/>
+                            <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="ip"/>
@@ -88,13 +100,17 @@
                             <column id="description"/>
                         </columns>
                         <buttonsPanel>
+                            <button action="playerIpsTable.details"/>
                             <button action="playerIpsTable.refresh"/>
+                            <button action="playerIpsTable.excel"/>
                         </buttonsPanel>
                     </table>
                     <table id="historiesTable" dataContainer="historiesDc" width="100%" height="200px"
                            caption="msg://caption.histories" textSelectionEnabled="true">
                         <actions>
                             <action id="refresh" type="refresh"/>
+                            <action id="details" caption="msg://caption.details"/>
+                            <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="name"/>
@@ -102,7 +118,9 @@
                             <column id="date"/>
                         </columns>
                         <buttonsPanel>
+                            <button action="historiesTable.details"/>
                             <button action="historiesTable.refresh"/>
+                            <button action="historiesTable.excel"/>
                         </buttonsPanel>
                     </table>
                 </scrollBox>

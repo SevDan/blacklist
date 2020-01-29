@@ -69,6 +69,15 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     @Named("contactsDc")
     private CollectionContainer<Contact> contactsDc;
 
+    @Named("contactsTable")
+    private Table<Contact> contactsTable;
+    @Named("playerIpsTable")
+    private Table<PlayerIP> playerIPsTable;
+    @Named("historiesTable")
+    private Table<History> historiesTable;
+    @Named("reviewsTable")
+    private Table<Review> reviewsTable;
+
     private Boolean isAccepted = false;
 
     private ReviewerProfile reviewer;
@@ -85,11 +94,11 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
         reviewsDl.setParameter("entry", getEditedEntity());
         reviewsDl.load();
 
-        if((reviewer = reviewsService.getCurrentProfile()) == null) {
+        if ((reviewer = reviewsService.getCurrentProfile()) == null) {
             this.closeWithDiscard();
         }
 
-        if(!isAccepted) {
+        if (!isAccepted) {
             checkAlreadyReviewed();
             reviewDc.addCollectionChangeListener(e -> {
                 checkAlreadyReviewed();
@@ -112,7 +121,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .withScreenClass(ReviewEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(e.getCloseAction().equals(WINDOW_COMMIT_AND_CLOSE_ACTION)) {
+                    if (e.getCloseAction().equals(WINDOW_COMMIT_AND_CLOSE_ACTION)) {
                         reviewsDl.load();
                         checkAlreadyReviewed();
                         checkReviewStatus();
@@ -129,7 +138,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .withScreenClass(HistoryEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         historiesDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })
@@ -143,7 +152,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .withScreenClass(PlayerIPEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         playerIpsDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })
@@ -157,7 +166,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .withScreenClass(ContactEdit.class)
                 .withLaunchMode(OpenMode.DIALOG)
                 .withAfterCloseListener(e -> {
-                    if(WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
+                    if (WINDOW_COMMIT_AND_CLOSE_ACTION.equals(e.getCloseAction())) {
                         contactsDc.getMutableItems().add(e.getSource().getEditedEntity());
                     }
                 })
@@ -165,11 +174,75 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
                 .show();
     }
 
+    @Subscribe("contactsTable.details")
+    private void onContactDetails(Action.ActionPerformedEvent event) {
+        Contact selected = contactsTable.getSingleSelected();
+        if (selected == null) return;
+
+        ContactEdit editor = screenBuilders.editor(Contact.class, this)
+                .editEntity(selected)
+                .withScreenClass(ContactEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .build();
+
+        editor.setReadOnly(true);
+
+        editor.show();
+    }
+
+    @Subscribe("historiesTable.details")
+    private void onHistoryDetails(Action.ActionPerformedEvent event) {
+        History selected = historiesTable.getSingleSelected();
+        if(selected == null) return;
+
+        HistoryEdit editor = screenBuilders.editor(History.class, this)
+                .editEntity(selected)
+                .withScreenClass(HistoryEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .build();
+
+        editor.setReadOnly(true);
+
+        editor.show();
+    }
+
+    @Subscribe("playerIpsTable.details")
+    private void onPlayerIPDetails(Action.ActionPerformedEvent event) {
+        PlayerIP selected = playerIPsTable.getSingleSelected();
+        if(selected == null) return;
+
+        PlayerIPEdit editor = screenBuilders.editor(PlayerIP.class, this)
+                .editEntity(selected)
+                .withScreenClass(PlayerIPEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .build();
+
+        editor.setReadOnly(true);
+
+        editor.show();
+    }
+
+    @Subscribe("reviewsTable.details")
+    private void onReviewDetails(Action.ActionPerformedEvent event) {
+        Review selected = reviewsTable.getSingleSelected();
+        if(selected == null) return;
+
+        ReviewEdit editor = screenBuilders.editor(Review.class, this)
+                .editEntity(selected)
+                .withScreenClass(ReviewEdit.class)
+                .withLaunchMode(OpenMode.DIALOG)
+                .build();
+
+        editor.setReadOnly(true);
+
+        editor.show();
+    }
+
     private void checkReviewStatus() {
         List<EntryStatus> availableStatuses = new ArrayList<>(Arrays.asList(EntryStatus.Voting, EntryStatus.Reviewing));
         acceptanceAvailableCheckBox.setValue(false);
 
-        if (reviewsService.availableToAcceptance(getEditedEntity())){
+        if (reviewsService.availableToAcceptance(getEditedEntity())) {
             availableStatuses.add(EntryStatus.Accepting);
             acceptanceAvailableCheckBox.setValue(true);
         }
@@ -178,7 +251,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     }
 
     private void checkAlreadyReviewed() {
-        if(reviewsService.getExistsReview(reviewer, getEditedEntity()) != null) {
+        if (reviewsService.getExistsReview(reviewer, getEditedEntity()) != null) {
             createBtn.setEnabled(false);
         }
     }

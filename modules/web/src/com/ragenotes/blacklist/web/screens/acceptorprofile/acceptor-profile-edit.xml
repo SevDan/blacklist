@@ -18,9 +18,9 @@
         <vbox id="vbox" spacing="true">
             <form id="form" dataContainer="acceptorProfileDc" width="100%">
                 <column width="100%">
-                    <textField id="nameField" property="name"/>
+                    <textField id="nameField" property="name" required="true"/>
                     <textField id="codeField" property="code" required="false"/>
-                    <pickerField id="userField" property="user">
+                    <pickerField id="userField" property="user" required="true">
                         <actions>
                             <action id="lookup" type="picker_lookup"/>
                             <action id="clear" type="picker_clear"/>

@@ -2,6 +2,7 @@ package com.ragenotes.blacklist.web.screens.review;
 
 import com.haulmont.cuba.core.global.TimeSource;
 import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.components.Form;
 import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.screen.*;
 import com.ragenotes.blacklist.entity.Review;
@@ -29,11 +30,20 @@ public class ReviewEdit extends StandardEditor<Review> {
 
     @Named("form.entryField")
     private PickerField<BlackListEntry> entryField;
+    @Named("form")
+    private Form form;
 
     private ReviewerProfile reviewer;
 
+    private boolean readOnly;
+
     @Subscribe
     private void onBeforeShow(BeforeShowEvent event) {
+        if (readOnly) {
+            form.setEditable(false);
+            return;
+        }
+
         if (getEditedEntity().getEntry() != null) {
             entryField.setEditable(false);
         }
@@ -73,5 +83,14 @@ public class ReviewEdit extends StandardEditor<Review> {
         notifications.create(Notifications.NotificationType.WARNING)
                 .withCaption(messageBundle.getMessage("notification.alreadyReviewed"))
                 .show();
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

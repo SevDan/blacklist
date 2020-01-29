@@ -62,7 +62,8 @@
                 </filter>
                 <groupTable id="blackListEntriesTableAccepted"
                             width="100%" height="80%"
-                            dataContainer="blackListEntriesAcceptedDc">
+                            dataContainer="blackListEntriesAcceptedDc"
+                            multiselect="true" presentations="true">
                     <actions>
                         <action id="edit" type="edit" caption="msg://caption.details"/>
                         <action id="refresh" type="refresh"/>
@@ -98,7 +99,8 @@
                 </filter>
                 <groupTable id="blackListEntriesTableVote"
                             width="100%" height="80%"
-                            dataContainer="blackListEntriesVoteDc">
+                            dataContainer="blackListEntriesVoteDc"
+                            multiselect="true" presentations="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="create" type="create"/>
@@ -136,7 +138,8 @@
                 </filter>
                 <groupTable id="blackListEntriesTableReview"
                             width="100%" height="80%"
-                            dataContainer="blackListEntriesReviewDc">
+                            dataContainer="blackListEntriesReviewDc"
+                            multiselect="true" presentations="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="review" caption="msg://review"/>
@@ -174,7 +177,8 @@
                 </filter>
                 <groupTable id="blackListEntriesTableAccept"
                             width="100%" height="80%"
-                            dataContainer="blackListEntriesAcceptDc">
+                            dataContainer="blackListEntriesAcceptDc"
+                            multiselect="true" presentations="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="edit" type="edit"/>
@@ -211,7 +215,8 @@
                 </filter>
                 <groupTable id="blackListEntriesTableReject"
                             width="100%" height="80%"
-                            dataContainer="blackListEntriesRejectedDc">
+                            dataContainer="blackListEntriesRejectedDc"
+                            multiselect="true" presentations="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="revote" type="edit"/>
