@@ -13,6 +13,7 @@
             <map>
                 <entry key="bl_ReviewsService" value="com.ragenotes.blacklist.service.ReviewsService"/>
                 <entry key="bl_CodeGeneratorService" value="com.ragenotes.blacklist.service.CodeGeneratorService"/>
+                <entry key="bl_SearchService" value="com.ragenotes.blacklist.service.SearchService"/>
             </map>
         </property>
     </bean>
