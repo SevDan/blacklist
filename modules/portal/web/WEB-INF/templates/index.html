@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>
-        Cuba Portal
+        Black List Portal
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/favicon.ico}"/>
@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<h1> Cuba Portal </h1>
+<h1> Black List Portal </h1>
 <div sec:authorize="isAuthenticated()">
     User: <span sec:authentication="name">Username</span>
     <br/>

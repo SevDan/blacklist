@@ -13,7 +13,9 @@ public enum ContactType implements EnumClass<String> {
     Telegram("telegram"),
     EMail("e-mail"),
     Instagram("instagram"),
-    PhoneNumber("phoneNumber");
+    PhoneNumber("phoneNumber"),
+    YandexMoney("yandexMoney"),
+    WebMoney("webMoney");
 
     private String id;
 
