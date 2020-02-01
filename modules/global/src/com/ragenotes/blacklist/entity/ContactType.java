@@ -9,13 +9,18 @@ public enum ContactType implements EnumClass<String> {
     VkUrl("vkUrl"),
     FacebookUrl("facebookUrl"),
     YouTubeUrl("youTubeUrl"),
+    Twitch("twitch"),
     Skype("skype"),
     Telegram("telegram"),
     EMail("e-mail"),
     Instagram("instagram"),
     PhoneNumber("phoneNumber"),
     YandexMoney("yandexMoney"),
-    WebMoney("webMoney");
+    WebMoney("webMoney"),
+    Qiwi("quwi"),
+    PayPal("payPal"),
+    Bank("bank"),
+    Other("other");
 
     private String id;
 

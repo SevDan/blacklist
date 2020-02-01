@@ -6,7 +6,7 @@
 
     <bean id="anonymousSessionPingScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
         <property name="daemon" value="true"/>
-        <property name="poolSize" value="1"/>
+        <property name="poolSize" value="2"/>
     </bean>
 
     <task:scheduled-tasks scheduler="anonymousSessionPingScheduler">
@@ -24,6 +24,7 @@
                 <entry key="bl_ReviewsService"
                        value="com.ragenotes.blacklist.service.ReviewsService"/>
                 <entry key="bl_SearchService" value="com.ragenotes.blacklist.service.SearchService"/>
+                <entry key="bl_RestApiService" value="com.ragenotes.blacklist.service.RestApiService"/>
             </map>
         </property>
     </bean>

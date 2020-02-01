@@ -63,7 +63,7 @@
                 <groupTable id="blackListEntriesTableAccepted"
                             width="100%" height="80%"
                             dataContainer="blackListEntriesAcceptedDc"
-                            multiselect="true" presentations="true">
+                            multiselect="true" presentations="true" textSelectionEnabled="true">
                     <actions>
                         <action id="edit" type="edit" caption="msg://caption.details"/>
                         <action id="refresh" type="refresh"/>
@@ -77,7 +77,7 @@
                         <column id="secondName"/>
                         <column id="lastName"/>
                         <column id="code"/>
-                        <column id="description"/>
+                        <column id="description" maxTextLength="100"/>
                         <column id="acceptor"/>
                         <column id="voter"/>
                         <column id="status"/>
@@ -86,8 +86,8 @@
                     <buttonsPanel id="buttonsPanelAccepted"
                                   alwaysVisible="true">
                         <button id="editBtnAccepted" action="blackListEntriesTableAccepted.edit"/>
-                        <button id="refreshBtnAccepted" action="blackListEntriesTableAccepted.refresh"/>
                         <button id="excelBtnAccepted" action="blackListEntriesTableAccepted.excel"/>
+                        <button id="refreshBtnAccepted" action="blackListEntriesTableAccepted.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </tab>
@@ -100,7 +100,7 @@
                 <groupTable id="blackListEntriesTableVote"
                             width="100%" height="80%"
                             dataContainer="blackListEntriesVoteDc"
-                            multiselect="true" presentations="true">
+                            multiselect="true" presentations="true" textSelectionEnabled="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="create" type="create"/>
@@ -115,7 +115,7 @@
                         <column id="secondName"/>
                         <column id="lastName"/>
                         <column id="code"/>
-                        <column id="description"/>
+                        <column id="description" maxTextLength="100"/>
                         <column id="acceptor"/>
                         <column id="voter"/>
                         <column id="status"/>
@@ -123,10 +123,10 @@
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelVote"
                                   alwaysVisible="true">
-                        <button id="refreshBtnRVote" action="blackListEntriesTableVote.refresh"/>
                         <button id="createBtnVote" action="blackListEntriesTableVote.create"/>
                         <button id="editBtnVote" action="blackListEntriesTableVote.edit"/>
                         <button id="excelBtnVote" action="blackListEntriesTableVote.excel"/>
+                        <button id="refreshBtnRVote" action="blackListEntriesTableVote.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </tab>
@@ -139,11 +139,10 @@
                 <groupTable id="blackListEntriesTableReview"
                             width="100%" height="80%"
                             dataContainer="blackListEntriesReviewDc"
-                            multiselect="true" presentations="true">
+                            multiselect="true" presentations="true" textSelectionEnabled="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
-                        <action id="review" caption="msg://review"/>
-                        <action id="accept" caption="msg://accept"/>
+                        <action id="review" type="edit" caption="msg://review"/>
                         <action id="excel" type="excel"/>
                     </actions>
                     <columns>
@@ -154,7 +153,7 @@
                         <column id="secondName"/>
                         <column id="lastName"/>
                         <column id="code"/>
-                        <column id="description"/>
+                        <column id="description" maxTextLength="100"/>
                         <column id="acceptor"/>
                         <column id="voter"/>
                         <column id="status"/>
@@ -163,9 +162,9 @@
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelReview"
                                   alwaysVisible="true">
-                        <button id="refreshBtnReview" action="blackListEntriesTableReview.refresh"/>
                         <button id="editBtnReview" caption="msg://review" action="blackListEntriesTableReview.review"/>
                         <button id="excelBtnReview" action="blackListEntriesTableReview.excel"/>
+                        <button id="refreshBtnReview" action="blackListEntriesTableReview.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </tab>
@@ -178,7 +177,7 @@
                 <groupTable id="blackListEntriesTableAccept"
                             width="100%" height="80%"
                             dataContainer="blackListEntriesAcceptDc"
-                            multiselect="true" presentations="true">
+                            multiselect="true" presentations="true" textSelectionEnabled="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="edit" type="edit"/>
@@ -192,7 +191,7 @@
                         <column id="secondName"/>
                         <column id="lastName"/>
                         <column id="code"/>
-                        <column id="description"/>
+                        <column id="description" maxTextLength="100"/>
                         <column id="acceptor"/>
                         <column id="voter"/>
                         <column id="status"/>
@@ -201,9 +200,9 @@
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelAccept"
                                   alwaysVisible="true">
-                        <button id="refreshBtnAccept" action="blackListEntriesTableAccept.refresh"/>
                         <button id="editBtnAccept" action="blackListEntriesTableAccept.edit"/>
                         <button id="excelBtnAccept" action="blackListEntriesTableAccept.excel"/>
+                        <button id="refreshBtnAccept" action="blackListEntriesTableAccept.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </tab>
@@ -216,7 +215,7 @@
                 <groupTable id="blackListEntriesTableReject"
                             width="100%" height="80%"
                             dataContainer="blackListEntriesRejectedDc"
-                            multiselect="true" presentations="true">
+                            multiselect="true" presentations="true" textSelectionEnabled="true">
                     <actions>
                         <action id="refresh" type="refresh"/>
                         <action id="revote" type="edit"/>
@@ -231,7 +230,7 @@
                         <column id="secondName"/>
                         <column id="lastName"/>
                         <column id="code"/>
-                        <column id="description"/>
+                        <column id="description" maxTextLength="100"/>
                         <column id="acceptor"/>
                         <column id="voter"/>
                         <column id="status"/>
@@ -240,10 +239,10 @@
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelReject"
                                   alwaysVisible="true">
-                        <button id="refreshBtnReject" action="blackListEntriesTableReject.refresh"/>
                         <button id="editBtnReject" caption="msg://revote" action="blackListEntriesTableReject.revote"/>
                         <button id="deleteBtnReject" action="blackListEntriesTableReject.remove"/>
                         <button id="excelBtnReject" action="blackListEntriesTableReject.excel"/>
+                        <button id="refreshBtnReject" action="blackListEntriesTableReject.refresh"/>
                     </buttonsPanel>
                 </groupTable>
             </tab>

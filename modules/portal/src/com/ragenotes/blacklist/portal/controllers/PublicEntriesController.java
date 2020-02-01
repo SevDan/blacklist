@@ -2,6 +2,7 @@ package com.ragenotes.blacklist.portal.controllers;
 
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
+import com.ragenotes.blacklist.service.RestApiService;
 import com.ragenotes.blacklist.service.SearchService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,15 +16,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@Controller(PublicEntriesController.NAME)
 public class PublicEntriesController {
 
     public static final String NAME = "bl_PublicEntriesController";
 
-    private static final Integer LIMIT = 100;
-
     @Inject
     private SearchService searchService;
+    @Inject
+    private RestApiService restApiService;
 
     @RequestMapping(value = "/public",
             method = RequestMethod.GET,
@@ -31,7 +32,7 @@ public class PublicEntriesController {
     public String publicEntries(Model model) {
         List<BlackListEntry> allEntries = searchService.getAllEntries(null).stream()
                 .sorted(Comparator.comparing(StandardEntity::getUpdateTs))
-                .limit(LIMIT)
+                .limit(restApiService.getPublicLimit())
                 .collect(Collectors.toList());
 
         model.addAttribute("entries", allEntries);

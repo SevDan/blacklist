@@ -14,7 +14,7 @@
     <layout expand="editActions" spacing="true">
         <form id="form" dataContainer="contactDc">
             <column width="250px">
-                <textField id="valueField" property="value"/>
+                <textField id="valueField" property="value" required="true"/>
                 <lookupField id="typeField" property="type" required="true"/>
                 <textField id="descriptionField" property="description"/>
             </column>

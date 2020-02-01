@@ -15,7 +15,7 @@
         <form id="form" dataContainer="historyDc" width="100%">
             <column width="100%">
                 <textField id="nameField" property="name" required="true"/>
-                <richTextArea id="descriptionField" property="description" height="400px"/>
+                <richTextArea id="descriptionField" property="description" height="400px" required="true"/>
                 <dateField id="dateField" property="date"/>
             </column>
         </form>

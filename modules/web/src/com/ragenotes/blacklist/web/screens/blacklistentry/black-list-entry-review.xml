@@ -52,60 +52,60 @@
                            caption="msg://caption.contacts">
                         <actions>
                             <action id="add" type="add"/>
-                            <action id="details" caption="msg://caption.details"/>
+                            <action id="details" type="edit" icon="SEARCH" caption="msg://caption.details"/>
                             <action id="refresh" type="refresh"/>
                             <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="value"/>
                             <column id="type"/>
-                            <column id="description"/>
+                            <column id="description" maxTextLength="100"/>
                         </columns>
                         <buttonsPanel>
                             <button action="contactsTable.add"/>
                             <button action="contactsTable.details"/>
-                            <button action="contactsTable.refresh"/>
                             <button action="contactsTable.excel"/>
+                            <button action="contactsTable.refresh"/>
                         </buttonsPanel>
                     </table>
                     <table id="playerIpsTable" dataContainer="playerIpsDc" width="100%" height="200px"
                            caption="msg://caption.playerIps">
                         <actions>
                             <action id="add" type="add"/>
-                            <action id="details" caption="msg://caption.details"/>
+                            <action id="details" type="edit" icon="SEARCH"  caption="msg://caption.details"/>
                             <action id="refresh" type="refresh"/>
                             <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="ip"/>
                             <column id="fixationDate"/>
-                            <column id="description"/>
+                            <column id="description" maxTextLength="100"/>
                         </columns>
                         <buttonsPanel>
                             <button action="playerIpsTable.add"/>
                             <button action="playerIpsTable.details"/>
-                            <button action="playerIpsTable.refresh"/>
                             <button action="playerIpsTable.excel"/>
+                            <button action="playerIpsTable.refresh"/>
                         </buttonsPanel>
                     </table>
                     <table id="historiesTable" dataContainer="historiesDc" width="100%" height="200px"
                            caption="msg://caption.histories">
                         <actions>
                             <action id="add" type="add"/>
-                            <action id="details" caption="msg://caption.details"/>
+                            <action id="details" type="edit" icon="SEARCH" caption="msg://caption.details"/>
                             <action id="refresh" type="refresh"/>
                             <action id="excel" type="excel"/>
                         </actions>
                         <columns>
                             <column id="name"/>
-                            <column id="description"/>
                             <column id="date"/>
+                            <column id="description" maxTextLength="100"/>
                         </columns>
                         <buttonsPanel>
                             <button action="historiesTable.add"/>
                             <button action="historiesTable.details"/>
-                            <button action="historiesTable.refresh"/>
                             <button action="historiesTable.excel"/>
+                            <button action="historiesTable.refresh"/>
                         </buttonsPanel>
                     </table>
                 </scrollBox>
@@ -115,21 +115,20 @@
                 <table id="reviewsTable" dataContainer="reviewsDc" width="100%" caption="msg://caption.reviews">
                     <actions>
                         <action id="create" type="create"/>
-                        <action id="details"/>
+                        <action id="details" type="edit" icon="SEARCH" caption="msg://caption.details"/>
                         <action id="refresh" type="refresh"/>
                         <action id="excel" type="excel"/>
                     </actions>
                     <columns>
                         <column id="mark"/>
-                        <column id="author.name" caption="msg://caption.author"/>
                         <column id="date"/>
+                        <column id="author" caption="msg://caption.author"/>
                     </columns>
                     <buttonsPanel>
                         <button id="createBtn" action="reviewsTable.create"/>
-                        <button id="detailsBtn" action="reviewsTable.details"
-                                caption="msg://caption.details"/>
+                        <button id="detailsBtn" action="reviewsTable.details"/>
+                        <button id="excelBtn" action="reviewsTable.excel"/>
                         <button id="refreshBtn" action="reviewsTable.refresh"/>
-                        <button action="reviewsTable.excel"/>
                     </buttonsPanel>
                     <rows/>
                 </table>

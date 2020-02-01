@@ -8,13 +8,14 @@ import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.core.global.ViewRepository;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.entries.EntryStatus;
+import com.ragenotes.blacklist.service.RestApiService;
 import com.ragenotes.blacklist.service.SearchService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController(value = PublicEntriesRestController.NAME)
@@ -22,8 +23,6 @@ import java.util.UUID;
 public class PublicEntriesRestController {
 
     public static final String NAME = "bl_PublicEntriesRestController";
-
-    private static final Integer LIMIT = 200;
 
     @Inject
     private DataService dataService;
@@ -33,20 +32,50 @@ public class PublicEntriesRestController {
     private ViewRepository viewRepository;
     @Inject
     private SearchService searchService;
+    @Inject
+    private RestApiService restApiService;
 
     /**
      * Gets all time entries.
      *
      * @return entries JSON
      */
-    @RequestMapping(value = "/all",
+    @RequestMapping(path = "/all",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String allEntries() {
-        List<BlackListEntry> allEntries = searchService.getAllEntries(null);
+        Set<BlackListEntry> allEntries = searchService.getAllEntries(null);
 
         return serializeToJson(allEntries);
+    }
+
+    /**
+     * Gets all time entries with constraints.
+     *
+     * @param createDateFrom start create date
+     * @param updateDateFrom start update date
+     * @param number         start number
+     * @param count          max count (maximum value configured by rest config)
+     * @return entries JSON
+     */
+    @RequestMapping(path = "/all/batch",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String allFrom(
+            @RequestParam(name = "createDate", defaultValue = "", required = false) String createDateFrom,
+            @RequestParam(name = "updateDate", defaultValue = "", required = false) String updateDateFrom,
+            @RequestParam(name = "number", defaultValue = "", required = false) String number,
+            @RequestParam(name = "count", defaultValue = "", required = false) String count
+    ) {
+        Set<BlackListEntry> entriesBatch = searchService.getAllEntriesBatched(createDateFrom,
+                updateDateFrom,
+                number,
+                count,
+                null);
+
+        return serializeToJson(entriesBatch);
     }
 
     /**
@@ -55,12 +84,32 @@ public class PublicEntriesRestController {
      * @param textPattern FTS-pattern
      * @return entries JSON
      */
-    @RequestMapping(value = "/search",
+    @RequestMapping(path = "/search",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public String searchEntries(@RequestParam("pattern") String textPattern) {
-        List<BlackListEntry> entries = searchService.findEntries(textPattern, null);
+    public String searchEntries(
+            @RequestParam(name = "pattern", defaultValue = "") String textPattern
+    ) {
+        Set<BlackListEntry> entries = searchService.searchEntries(textPattern, null);
+
+        return serializeToJson(entries);
+    }
+
+    /**
+     * FTS search by related entities.
+     *
+     * @param textPattern FTS-pattern
+     * @return entries JSON
+     */
+    @RequestMapping(path = "/search/related",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String searchEntriesByRelated(
+            @RequestParam(name = "pattern", defaultValue = "") String textPattern
+    ) {
+        Set<BlackListEntry> entries = searchService.searchEntryByRelated(textPattern, null);
 
         return serializeToJson(entries);
     }
@@ -77,33 +126,66 @@ public class PublicEntriesRestController {
      * @param number     number
      * @return entries JSON
      */
-    @RequestMapping(value = "/find",
+    @RequestMapping(path = "/find",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public String findEntries(
-            @RequestParam(value = "id", defaultValue = "", required = false) String id,
-            @RequestParam(value = "nickName", defaultValue = "", required = false) String nickName,
-            @RequestParam(value = "fullName", defaultValue = "", required = false) String fullName,
-            @RequestParam(value = "firstName", defaultValue = "", required = false) String firstName,
-            @RequestParam(value = "secondName", defaultValue = "", required = false) String secondName,
-            @RequestParam(value = "lastName", defaultValue = "", required = false) String lastName,
-            @RequestParam(value = "code", defaultValue = "", required = false) String code,
-            @RequestParam(value = "number", defaultValue = "", required = false) String number
+            @RequestParam(name = "id", defaultValue = "", required = false) String id,
+            @RequestParam(name = "nickName", defaultValue = "", required = false) String nickName,
+            @RequestParam(name = "fullName", defaultValue = "", required = false) String fullName,
+            @RequestParam(name = "firstName", defaultValue = "", required = false) String firstName,
+            @RequestParam(name = "secondName", defaultValue = "", required = false) String secondName,
+            @RequestParam(name = "lastName", defaultValue = "", required = false) String lastName,
+            @RequestParam(name = "code", defaultValue = "", required = false) String code,
+            @RequestParam(name = "number", defaultValue = "", required = false) String number
     ) {
         LoadContext.Query query = new LoadContext.Query("select ble " +
-                "from bl_BlackListEntry ble " +
-                "where ble.status = :acceptedStatus ");
+                "   from bl_BlackListEntry ble " +
+                "   where ble.status = :acceptedStatus ");
         query.setParameter("acceptedStatus", EntryStatus.Accepted);
-        appendExistsValue(query, "id", id);
-        appendExistsValue(query, "nickName", nickName);
-        appendExistsValue(query, "fullName", fullName);
-        appendExistsValue(query, "firstName", firstName);
-        appendExistsValue(query, "secondName", secondName);
-        appendExistsValue(query, "lastName", lastName);
-        appendExistsValue(query, "code", code);
-        appendExistsValue(query, "number", number);
-        query.setMaxResults(LIMIT);
+        appendExistsValueInFindQuery(query, "id", id);
+        appendExistsValueInFindQuery(query, "nickName", nickName);
+        appendExistsValueInFindQuery(query, "fullName", fullName);
+        appendExistsValueInFindQuery(query, "firstName", firstName);
+        appendExistsValueInFindQuery(query, "secondName", secondName);
+        appendExistsValueInFindQuery(query, "lastName", lastName);
+        appendExistsValueInFindQuery(query, "code", code);
+        appendExistsValueInFindQuery(query, "number", number);
+        query.setMaxResults(restApiService.getRestLimit());
+
+        LoadContext<BlackListEntry> loadContext = new LoadContext<>(BlackListEntry.class);
+        loadContext.setView(getBlackListLocalView());
+        loadContext.setQuery(query);
+
+        return serializeToJson(dataService.loadList(loadContext));
+    }
+
+    /**
+     * Find entries by related entries with string param.
+     *
+     * @param contact  contact
+     * @param playerIp player IP
+     * @param history  history
+     * @return entries JSON
+     */
+    @RequestMapping(path = "/find/related",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public String findEntriesByRelated(
+            @RequestParam(name = "contact", defaultValue = "", required = false) String contact,
+            @RequestParam(name = "playerIp", defaultValue = "", required = false) String playerIp,
+            @RequestParam(name = "history", defaultValue = "", required = false) String history
+    ) {
+        LoadContext.Query query = new LoadContext.Query("select ble " +
+                "   from bl_BlackListEntry ble " +
+                "   where ble.status = :acceptedStatus ");
+        query.setParameter("acceptedStatus", EntryStatus.Accepted);
+        appendExistsValueInRelatedFindQuery(query, "ble", "contacts", contact);
+        appendExistsValueInRelatedFindQuery(query, "ble", "playerIps", playerIp);
+        appendExistsValueInRelatedFindQuery(query, "ble", "histories", history);
+        query.setMaxResults(restApiService.getRestLimit());
 
         LoadContext<BlackListEntry> loadContext = new LoadContext<>(BlackListEntry.class);
         loadContext.setView(getBlackListLocalView());
@@ -117,11 +199,11 @@ public class PublicEntriesRestController {
                 getBlackListLocalView());
     }
 
-    private void appendExistsValue(LoadContext.Query query,
-                                   String parameterName,
-                                   String parameterValue) {
+    private void appendExistsValueInFindQuery(LoadContext.Query query,
+                                              String parameterName,
+                                              String parameterValue) {
+        String queryString = query.getQueryString();
         if (!Strings.isNullOrEmpty(parameterValue)) {
-            String queryString = query.getQueryString();
             query.setQueryString(queryString +
                     " and ble." + parameterName + " = :" + parameterName);
             switch (parameterName) {
@@ -139,6 +221,44 @@ public class PublicEntriesRestController {
                 }
                 default: {
                     query.setParameter(parameterName, parameterValue);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void appendExistsValueInRelatedFindQuery(LoadContext.Query query,
+                                                     String tableName,
+                                                     String relatedColumnName,
+                                                     String parameterValue) {
+        String queryString = query.getQueryString();
+        if (!Strings.isNullOrEmpty(parameterValue)) {
+            switch (relatedColumnName) {
+                case "contacts": {
+                    query.setQueryString(queryString +
+                            " and exists (" +
+                            "   select c " +
+                            "   from " + tableName + "." + relatedColumnName + " c " +
+                            "   where c.value = :" + relatedColumnName + ") ");
+                    query.setParameter(relatedColumnName, parameterValue);
+                    break;
+                }
+                case "histories": {
+                    query.setQueryString(queryString +
+                            " and exists (" +
+                            "   select he " +
+                            "   from " + tableName + "." + relatedColumnName + " he " +
+                            "   where he.name = :" + relatedColumnName + ") ");
+                    query.setParameter(relatedColumnName, parameterValue);
+                    break;
+                }
+                case "playerIps": {
+                    query.setQueryString(queryString +
+                            " and exists (" +
+                            "   select i " +
+                            "   from " + tableName + "." + relatedColumnName + " i " +
+                            "   where i.ip = :" + relatedColumnName + ") ");
+                    query.setParameter(relatedColumnName, parameterValue);
                     break;
                 }
             }

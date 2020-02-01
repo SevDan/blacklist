@@ -2,6 +2,7 @@ package com.ragenotes.blacklist.service;
 
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.UserSessionSource;
+import com.ragenotes.blacklist.config.EntriesProcessingConfig;
 import com.ragenotes.blacklist.entity.Review;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
@@ -13,12 +14,12 @@ import javax.inject.Inject;
 @Service(ReviewsService.NAME)
 public class ReviewsServiceBean implements ReviewsService {
 
-    private static final Integer NECESSARY_REVIEWS_NUMBER = 4;
-
     @Inject
     private DataManager dataManager;
     @Inject
     private UserSessionSource userSessionSource;
+    @Inject
+    private EntriesProcessingConfig entriesProcessingConfig;
 
     @Nullable
     @Override
@@ -47,7 +48,7 @@ public class ReviewsServiceBean implements ReviewsService {
 
     @Override
     public Boolean availableToAcceptance(BlackListEntry entry) {
-        return getReviewsCount(entry) >= NECESSARY_REVIEWS_NUMBER
+        return getReviewsCount(entry) >= entriesProcessingConfig.getReviewingQuorum()
                 && entry.getMark() > 0;
     }
 
