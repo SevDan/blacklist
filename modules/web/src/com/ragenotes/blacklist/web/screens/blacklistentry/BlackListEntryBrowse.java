@@ -4,18 +4,22 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.gui.ScreenBuilders;
+import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.actions.list.CreateAction;
 import com.haulmont.cuba.gui.actions.list.EditAction;
 import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.GroupTable;
+import com.haulmont.cuba.gui.components.Label;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
+import com.haulmont.cuba.security.global.UserSession;
 import com.ragenotes.blacklist.entity.ExtUser;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.entries.EntryStatus;
 import com.ragenotes.blacklist.entity.profiles.AcceptorProfile;
 import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
 import com.ragenotes.blacklist.entity.profiles.VoterProfile;
+import com.ragenotes.blacklist.service.NotificationService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,9 +35,15 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     @Inject
     private Metadata metadata;
     @Inject
-    private UserSessionSource sessionSource;
-    @Inject
     private DataManager dataManager;
+    @Inject
+    private NotificationService notificationService;
+    @Inject
+    private UserSession userSession;
+    @Inject
+    private UiComponents uiComponents;
+    @Inject
+    private MessageBundle messageBundle;
 
     @Named("blackListEntriesVoteDl")
     private CollectionLoader<BlackListEntry> blackListEntriesVoteDl;
@@ -78,7 +88,7 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
         blackListEntriesRejectedDl.setParameter("rejected_status", EntryStatus.Rejected);
         blackListEntriesAcceptedDl.setParameter("accepted_status", EntryStatus.Accepted);
 
-        ExtUser user = dataManager.reload((ExtUser) sessionSource.getUserSession().getCurrentOrSubstitutedUser(),
+        ExtUser user = dataManager.reload((ExtUser) userSession.getCurrentOrSubstitutedUser(),
                 "extUser-full");
 
         AcceptorProfile acceptor = user.getAcceptorProfile();
@@ -95,10 +105,31 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
         editBtnVote.setEnabled(voter != null);
     }
 
+    @Subscribe
+    public void onBeforeShow(BeforeShowEvent event) {
+        blackListEntriesTableReviewing.addGeneratedColumn("marked", e -> {
+            Integer count = dataManager.loadValue("select count(r)" +
+                    "from bl_Review r " +
+                    "where r.entry = :entry and r.author.user = :user", Integer.class)
+                    .parameter("entry", e)
+                    .parameter("user", userSession.getCurrentOrSubstitutedUser())
+                    .optional().orElse(0);
+            Label label = uiComponents.create(Label.class);
+
+            if(count == 0) {
+                label.setValue(messageBundle.getMessage("no"));
+            } else {
+                label.setValue(messageBundle.getMessage("yes"));
+            }
+            return label;
+        });
+    }
+
     @Subscribe("blackListEntriesTableVote.create")
     public void onCreateVoteEntry(CreateAction.ActionPerformedEvent event) {
         BlackListEntry entry = metadata.create(BlackListEntry.class);
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if (currentUser.getVoterProfile() == null || currentUser.getVoterProfile().getCode() == null) return;
         entry.setVoter(currentUser.getVoterProfile());
         entry.setStatus(EntryStatus.Voting);
@@ -107,6 +138,11 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
                 .newEntity(entry)
                 .withScreenClass(BlackListEntryVote.class)
                 .withLaunchMode(OpenMode.NEW_TAB)
+                .withAfterCloseListener(e -> {
+                    if(e.getCloseAction() == WINDOW_COMMIT_AND_CLOSE_ACTION) {
+                        notificationService.notifyNewEntry(e.getSource().getEditedEntity());
+                    }
+                })
                 .build()
                 .show();
     }
@@ -114,7 +150,8 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     @Subscribe("blackListEntriesTableVote.edit")
     public void onEditVoteEntry(EditAction.ActionPerformedEvent event) {
         BlackListEntry entry = blackListEntriesTableVoting.getSingleSelected();
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if (entry == null) return;
 
         VoterProfile entryVoter = entry.getVoter();
@@ -139,7 +176,8 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     @Subscribe("blackListEntriesTableReview.review")
     public void onEditReviewEntry(EditAction.ActionPerformedEvent event) {
         BlackListEntry entry = blackListEntriesTableReviewing.getSingleSelected();
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if (entry == null) return;
 
         ReviewerProfile currentReviewer = currentUser.getReviewerProfile();
@@ -155,7 +193,8 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     @Subscribe("blackListEntriesTableReject.revote")
     public void onRevoteRejectEntry(EditAction.ActionPerformedEvent event) {
         BlackListEntry entry = blackListEntriesTableReject.getSingleSelected();
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if (entry == null) return;
 
         VoterProfile currentVoter = currentUser.getVoterProfile();
@@ -166,6 +205,11 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
         screenBuilders.editor(BlackListEntry.class, this)
                 .withScreenClass(BlackListEntryVote.class)
                 .editEntity(entry)
+                .withAfterCloseListener(e -> {
+                    if(e.getCloseAction() == WINDOW_COMMIT_AND_CLOSE_ACTION) {
+                        notificationService.notifyNewEntry(e.getSource().getEditedEntity());
+                    }
+                })
                 .build()
                 .show();
     }
@@ -173,23 +217,27 @@ public class BlackListEntryBrowse extends StandardLookup<BlackListEntry> {
     @Subscribe("blackListEntriesTableAccept.edit")
     public void onAcceptEntry(EditAction.ActionPerformedEvent event) {
         BlackListEntry entry = blackListEntriesTableAccept.getSingleSelected();
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if (entry == null) return;
 
         AcceptorProfile currentAcceptor = currentUser.getAcceptorProfile();
         if (currentAcceptor == null) return;
 
-        screenBuilders.editor(BlackListEntry.class, this)
+        BlackListEntryAccept editor = screenBuilders.editor(BlackListEntry.class, this)
                 .withScreenClass(BlackListEntryAccept.class)
                 .editEntity(entry)
-                .build()
-                .show();
+                .build();
+
+        editor.setAcceptorProfile(currentAcceptor);
+        editor.show();
     }
 
     @Subscribe("blackListEntriesTableAccepted.edit")
     public void onAcceptedEntry(EditAction.ActionPerformedEvent event) {
         BlackListEntry entry = blackListEntriesTableAccepted.getSingleSelected();
-        ExtUser currentUser = dataManager.reload((ExtUser) sessionSource.getUserSession().getUser(), "extUser-full");
+        ExtUser currentUser = dataManager.reload((ExtUser) userSession
+                .getCurrentOrSubstitutedUser(), "extUser-full");
         if(entry == null) return;
 
         ReviewerProfile reviewerProfile = currentUser.getReviewerProfile();

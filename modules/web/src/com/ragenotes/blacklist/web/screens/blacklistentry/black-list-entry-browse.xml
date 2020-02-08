@@ -158,6 +158,7 @@
                         <column id="voter"/>
                         <column id="status"/>
                         <column id="mark"/>
+                        <column id="marked" caption="msg://caption.marked"/>
                     </columns>
                     <rowsCount/>
                     <buttonsPanel id="buttonsPanelReview"

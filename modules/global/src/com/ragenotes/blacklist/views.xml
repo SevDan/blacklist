@@ -50,4 +50,11 @@
         <property name="createdBy"/>
         <property name="author" view="reviewerProfile-full"/>
     </view>
+    <view class="com.ragenotes.blacklist.entity.entries.BlackListEntry" name="blackListEntry-public" extends="_local">
+        <property name="updateTs"/>
+        <property name="createTs"/>
+    </view>
+    <view class="com.ragenotes.blacklist.entity.ExportConsumer" name="exportConsumer-full" extends="_local">
+        <property name="params" view="_local"/>
+    </view>
 </views>

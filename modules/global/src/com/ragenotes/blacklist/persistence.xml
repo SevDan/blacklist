@@ -11,5 +11,7 @@
         <class>com.ragenotes.blacklist.entity.Contact</class>
         <class>com.ragenotes.blacklist.entity.Review</class>
         <class>com.ragenotes.blacklist.entity.ExtUser</class>
+        <class>com.ragenotes.blacklist.entity.ExportConsumer</class>
+        <class>com.ragenotes.blacklist.entity.ExportParam</class>
     </persistence-unit>
 </persistence>

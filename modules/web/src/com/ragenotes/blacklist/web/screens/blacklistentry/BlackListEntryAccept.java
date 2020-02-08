@@ -15,6 +15,8 @@ import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.entries.EntryStatus;
 import com.ragenotes.blacklist.entity.entries.History;
 import com.ragenotes.blacklist.entity.entries.PlayerIP;
+import com.ragenotes.blacklist.entity.profiles.AcceptorProfile;
+import com.ragenotes.blacklist.service.NotificationService;
 import com.ragenotes.blacklist.web.screens.contact.ContactEdit;
 import com.ragenotes.blacklist.web.screens.history.HistoryEdit;
 import com.ragenotes.blacklist.web.screens.playerip.PlayerIPEdit;
@@ -30,16 +32,14 @@ import java.util.Arrays;
 @LoadDataBeforeShow
 public class BlackListEntryAccept extends StandardEditor<BlackListEntry> {
 
-    @Named("statusField")
-    private LookupField<EntryStatus> statusField;
-    @Named("reviewsDl")
-    private CollectionLoader<Review> reviewsDl;
     @Inject
     private UserSessionSource sessionSource;
     @Inject
     private DataManager dataManager;
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private NotificationService notificationService;
 
     @Named("contactsTable")
     private Table<Contact> contactsTable;
@@ -49,7 +49,12 @@ public class BlackListEntryAccept extends StandardEditor<BlackListEntry> {
     private Table<History> historiesTable;
     @Named("reviewsTable")
     private Table<Review> reviewsTable;
+    @Named("statusField")
+    private LookupField<EntryStatus> statusField;
+    @Named("reviewsDl")
+    private CollectionLoader<Review> reviewsDl;
 
+    private AcceptorProfile acceptorProfile;
 
     @Subscribe
     private void init(InitEvent e) {
@@ -65,8 +70,20 @@ public class BlackListEntryAccept extends StandardEditor<BlackListEntry> {
 
     @Subscribe
     private void onBeforeShow(BeforeShowEvent event) {
+        if(acceptorProfile == null) return;
+
         reviewsDl.setParameter("entry", getEditedEntity());
         reviewsDl.load();
+    }
+
+    @Subscribe
+    private void onBeforeCommit(BeforeCommitChangesEvent e) {
+        if(getEditedEntity().getStatus() == EntryStatus.Accepted) {
+            getEditedEntity().setAcceptor(acceptorProfile);
+            notificationService.notifyAcceptedEntry(getEditedEntity());
+        } else if(getEditedEntity().getStatus() == EntryStatus.Rejected) {
+            notificationService.notifyRejectedEntry(getEditedEntity());
+        }
     }
 
     @Subscribe("contactsTable.details")
@@ -131,5 +148,13 @@ public class BlackListEntryAccept extends StandardEditor<BlackListEntry> {
         editor.setReadOnly(true);
 
         editor.show();
+    }
+
+    public AcceptorProfile getAcceptorProfile() {
+        return acceptorProfile;
+    }
+
+    public void setAcceptorProfile(AcceptorProfile acceptorProfile) {
+        this.acceptorProfile = acceptorProfile;
     }
 }

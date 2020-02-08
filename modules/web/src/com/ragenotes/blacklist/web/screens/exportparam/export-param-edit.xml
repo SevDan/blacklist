@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="com.ragenotes.blacklist.web.screens.exportparam">
+    <data>
+        <instance id="exportParamDc"
+                  class="com.ragenotes.blacklist.entity.ExportParam"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="AUTO"
+                width="600px"
+                modal="true"
+                forceDialog="true" resizable="true"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="exportParamDc" width="100%">
+            <column width="100%">
+                <textField id="nameField" property="name"/>
+                <textField id="keyField" property="key"/>
+                <textArea id="valueField" property="value" rows="4"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

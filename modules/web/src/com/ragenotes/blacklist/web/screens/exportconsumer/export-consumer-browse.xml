@@ -1,0 +1,114 @@
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="table"
+        messagesPack="com.ragenotes.blacklist.web.screens.exportconsumer">
+    <data>
+        <collection id="exportConsumersDc"
+                    class="com.ragenotes.blacklist.entity.ExportConsumer"
+                    view="_local">
+            <loader id="exportConsumersDl">
+                <query>
+                    <![CDATA[select e from bl_ExportConsumer e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="exportConsumerDc"
+                  class="com.ragenotes.blacklist.entity.ExportConsumer"
+                  view="exportConsumer-full">
+            <collection id="paramsDc" property="params"/>
+            <loader/>
+        </instance>
+    </data>
+    <actions>
+        <action id="save" icon="icons/ok.png" caption="mainMsg://actions.Ok" shortcut="CTRL-ENTER"/>
+        <action id="cancel" icon="icons/cancel.png" caption="mainMsg://actions.Cancel" description="Esc"/>
+    </actions>
+    <dialogMode height="600" width="800"/>
+    <layout>
+        <split id="split" height="100%" orientation="horizontal" reversePosition="true" width="100%">
+            <vbox id="lookupBox" expand="table" height="100%" margin="false,true,false,false" spacing="true">
+                <filter id="filter" applyTo="table" dataLoader="exportConsumersDl">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            width="100%"
+                            dataContainer="exportConsumersDc"
+                            multiselect="true"
+                            presentations="true">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                        <action id="refresh" type="refresh"/>
+                        <action id="excel" type="excel"/>
+                        <action id="vkDialogs" caption="msg://caption.vkDialogs"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                        <column id="url"/>
+                        <column id="type"/>
+                    </columns>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn" action="table.create"/>
+                        <button id="editBtn" action="table.edit"/>
+                        <button id="removeBtn" action="table.remove"/>
+                        <button id="vkDialogs" action="table.vkDialogs"/>
+                        <button id="refreshBtn" action="table.refresh"/>
+                        <button id="excelBtn" action="table.excel"/>
+                    </buttonsPanel>
+                </groupTable>
+                <hbox id="lookupActions" spacing="true" visible="false">
+                    <button action="lookupSelectAction"/>
+                    <button action="lookupCancelAction"/>
+                </hbox>
+            </vbox>
+            <vbox id="editBox" height="100%" margin="false,false,false,true" expand="fieldGroupBox" spacing="true">
+                <scrollBox id="fieldGroupBox" spacing="true">
+                    <form id="form" dataContainer="exportConsumerDc">
+                        <column width="250px">
+                            <textField id="nameField" property="name"/>
+                            <textField id="urlField" property="url"/>
+                            <lookupField id="typeField" property="type"/>
+                            <textField id="tokenField" property="token"/>
+                            <checkBox id="enabled" property="enabled"/>
+                            <checkBox id="isNewConsumerField" property="isNewConsumer"/>
+                            <checkBox id="isReviewingConsumerField" property="isReviewingConsumer"/>
+                            <checkBox id="isReadyToAcceptingConsumerField" property="isReadyToAcceptingConsumer"/>
+                            <checkBox id="isAcceptingConsumerField" property="isAcceptingConsumer"/>
+                            <checkBox id="isAcceptedConsumerField" property="isAcceptedConsumer"/>
+                            <checkBox id="isRejectedConsumerField" property="isRejectedConsumer"/>
+                        </column>
+                    </form>
+                    <table id="paramsTable" dataContainer="paramsDc" width="100%" height="300px" multiselect="true">
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                            <action id="excel" type="excel"/>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
+                        <columns>
+                            <column id="name"/>
+                            <column id="key"/>
+                            <column id="value"/>
+                        </columns>
+                        <rows/>
+                        <buttonsPanel>
+                            <button action="paramsTable.create"/>
+                            <button action="paramsTable.edit"/>
+                            <button action="paramsTable.remove"/>
+                            <button action="paramsTable.excel"/>
+                            <button action="paramsTable.refresh"/>
+                        </buttonsPanel>
+                    </table>
+                </scrollBox>
+                <hbox id="actionsPane" spacing="true" visible="false">
+                    <button id="saveBtn" action="save"/>
+                    <button id="cancelBtn" action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

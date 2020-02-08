@@ -20,6 +20,7 @@ import com.ragenotes.blacklist.entity.entries.EntryStatus;
 import com.ragenotes.blacklist.entity.entries.History;
 import com.ragenotes.blacklist.entity.entries.PlayerIP;
 import com.ragenotes.blacklist.service.CodeGeneratorService;
+import com.ragenotes.blacklist.service.NotificationService;
 import com.ragenotes.blacklist.web.screens.contact.ContactEdit;
 import com.ragenotes.blacklist.web.screens.history.HistoryEdit;
 import com.ragenotes.blacklist.web.screens.playerip.PlayerIPEdit;
@@ -47,6 +48,8 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
     private ScreenBuilders screenBuilders;
     @Inject
     private UniqueNumbersService uniqueNumbersService;
+    @Inject
+    private NotificationService notificationService;
 
     @Named("statusField")
     private LookupField<EntryStatus> statusField;
@@ -81,6 +84,10 @@ public class BlackListEntryVote extends StandardEditor<BlackListEntry> {
 
         if (PersistenceHelper.isNew(getEditedEntity())) {
             getEditedEntity().setNumber(uniqueNumbersService.getNextNumber(NUMBERS_DOMAIN));
+        }
+
+        if(getEditedEntity().getStatus() == EntryStatus.Reviewing) {
+            notificationService.notifyReviewingEntry(getEditedEntity());
         }
     }
 

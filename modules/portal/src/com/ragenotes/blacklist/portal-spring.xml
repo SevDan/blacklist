@@ -25,6 +25,7 @@
                        value="com.ragenotes.blacklist.service.ReviewsService"/>
                 <entry key="bl_SearchService" value="com.ragenotes.blacklist.service.SearchService"/>
                 <entry key="bl_RestApiService" value="com.ragenotes.blacklist.service.RestApiService"/>
+                <entry key="bl_NotificationService" value="com.ragenotes.blacklist.service.NotificationService"/>
             </map>
         </property>
     </bean>

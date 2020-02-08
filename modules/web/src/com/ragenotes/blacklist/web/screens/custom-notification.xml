@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="com.ragenotes.blacklist.web.screens">
+    <dialogMode width="AUTO"
+                height="AUTO"
+                forceDialog="true"/>
+    <layout>
+        <vbox id="vbox" spacing="true">
+            <form id="form">
+                <textArea id="textArea" width="600px" rows="6" required="true"/>
+            </form>
+            <hbox id="actions" spacing="true">
+                <button id="sendBtn" stylename="friendly" icon="SEND" caption="msg://caption.send"/>
+                <button id="cancelBtn" caption="msg://caption.cancel"/>
+            </hbox>
+        </vbox>
+    </layout>
+</window>

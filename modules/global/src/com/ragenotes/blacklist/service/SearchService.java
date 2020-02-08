@@ -15,7 +15,6 @@ public interface SearchService {
 
     Set<BlackListEntry> getAllEntries(@Nullable String viewName);
 
-
     Set<BlackListEntry> getAllEntriesBatched(
             @Nullable String createDateFrom,
             @Nullable String updateDateFrom,

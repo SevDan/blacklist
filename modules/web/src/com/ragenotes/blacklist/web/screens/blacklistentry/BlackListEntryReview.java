@@ -20,6 +20,7 @@ import com.ragenotes.blacklist.entity.entries.EntryStatus;
 import com.ragenotes.blacklist.entity.entries.History;
 import com.ragenotes.blacklist.entity.entries.PlayerIP;
 import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
+import com.ragenotes.blacklist.service.NotificationService;
 import com.ragenotes.blacklist.service.ReviewsService;
 import com.ragenotes.blacklist.web.screens.contact.ContactEdit;
 import com.ragenotes.blacklist.web.screens.history.HistoryEdit;
@@ -49,6 +50,8 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     private Metadata metadata;
     @Inject
     private ReviewsService reviewsService;
+    @Inject
+    private NotificationService notificationService;
 
     @Named("statusField")
     private LookupField<EntryStatus> statusField;
@@ -108,6 +111,13 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
         } else {
             form.setEditable(false);
             createBtn.setVisible(false);
+        }
+    }
+
+    @Subscribe
+    private void onBeforeCommit(BeforeCommitChangesEvent e) {
+        if(getEditedEntity().getStatus() == EntryStatus.Accepting) {
+            notificationService.notifyAcceptingReadyEntry(getEditedEntity());
         }
     }
 
@@ -193,7 +203,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     @Subscribe("historiesTable.details")
     private void onHistoryDetails(Action.ActionPerformedEvent event) {
         History selected = historiesTable.getSingleSelected();
-        if(selected == null) return;
+        if (selected == null) return;
 
         HistoryEdit editor = screenBuilders.editor(History.class, this)
                 .editEntity(selected)
@@ -209,7 +219,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     @Subscribe("playerIpsTable.details")
     private void onPlayerIPDetails(Action.ActionPerformedEvent event) {
         PlayerIP selected = playerIPsTable.getSingleSelected();
-        if(selected == null) return;
+        if (selected == null) return;
 
         PlayerIPEdit editor = screenBuilders.editor(PlayerIP.class, this)
                 .editEntity(selected)
@@ -225,7 +235,7 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
     @Subscribe("reviewsTable.details")
     private void onReviewDetails(Action.ActionPerformedEvent event) {
         Review selected = reviewsTable.getSingleSelected();
-        if(selected == null) return;
+        if (selected == null) return;
 
         ReviewEdit editor = screenBuilders.editor(Review.class, this)
                 .editEntity(selected)
@@ -243,6 +253,9 @@ public class BlackListEntryReview extends StandardEditor<BlackListEntry> {
         acceptanceAvailableCheckBox.setValue(false);
 
         if (reviewsService.availableToAcceptance(getEditedEntity())) {
+            if(!acceptanceAvailableCheckBox.getValue()) {
+                notificationService.notifyAcceptingReadyEntry(getEditedEntity());
+            }
             availableStatuses.add(EntryStatus.Accepting);
             acceptanceAvailableCheckBox.setValue(true);
         }

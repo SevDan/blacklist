@@ -14,4 +14,8 @@
         <item screen="bl_Contact.browse"/>
         <item screen="bl_Review.browse"/>
     </menu>
+    <menu id="notifications" insertBefore="administration" description="mainMsg://Notifications">
+        <item screen="bl_ExportConsumer.browse"/>
+        <item screen="bl_CustomNotification"/>
+    </menu>
 </menu-config>

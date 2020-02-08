@@ -30,7 +30,7 @@ public class PublicEntriesController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public String publicEntries(Model model) {
-        List<BlackListEntry> allEntries = searchService.getAllEntries(null).stream()
+        List<BlackListEntry> allEntries = searchService.getAllEntries("blackListEntry-public").stream()
                 .sorted(Comparator.comparing(StandardEntity::getUpdateTs))
                 .limit(restApiService.getPublicLimit())
                 .collect(Collectors.toList());
