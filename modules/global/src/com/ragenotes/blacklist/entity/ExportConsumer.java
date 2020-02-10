@@ -48,6 +48,9 @@ public class ExportConsumer extends StandardEntity {
     @Column(name = "IS_REJECTED_CONSUMER")
     private Boolean isRejectedConsumer;
 
+    @Column(name = "IS_DISTRIBUTION_CONSUMER")
+    private Boolean isDistributionConsumer;
+
     @OneToMany(mappedBy = "consumer")
     @OnDelete(DeletePolicy.CASCADE)
     private List<ExportParam> params;
@@ -146,5 +149,13 @@ public class ExportConsumer extends StandardEntity {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Boolean getIsDistributionConsumer() {
+        return isDistributionConsumer;
+    }
+
+    public void setIsDistributionConsumer(Boolean isDistributionConsumer) {
+        this.isDistributionConsumer = isDistributionConsumer;
     }
 }

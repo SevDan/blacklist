@@ -6,9 +6,9 @@ import com.ragenotes.blacklist.config.EntriesProcessingConfig;
 import com.ragenotes.blacklist.entity.Review;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
 import com.ragenotes.blacklist.entity.profiles.ReviewerProfile;
-import jdk.internal.jline.internal.Nullable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 @Service(ReviewsService.NAME)

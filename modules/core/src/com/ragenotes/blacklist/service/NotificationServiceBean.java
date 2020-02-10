@@ -1,7 +1,9 @@
 package com.ragenotes.blacklist.service;
 
 import com.haulmont.bali.util.Preconditions;
+import com.ragenotes.blacklist.core.PostNotificationBean;
 import com.ragenotes.blacklist.core.VkNotificationBean;
+import com.ragenotes.blacklist.core.VkWallNotificationBean;
 import com.ragenotes.blacklist.entity.ExportConsumer;
 import com.ragenotes.blacklist.entity.ExportConsumerType;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
@@ -17,12 +19,18 @@ public class NotificationServiceBean implements NotificationService {
 
     @Inject
     private VkNotificationBean vkNotificationBean;
+    @Inject
+    private VkWallNotificationBean vkWallNotificationBean;
+    @Inject
+    private PostNotificationBean postNotificationBean;
 
     @Override
     public void notifyNewEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
         vkNotificationBean.notifyNewEntry(entry);
+        vkWallNotificationBean.notifyNewEntry(entry);
+        postNotificationBean.notifyNewEntry(entry);
     }
 
     @Override
@@ -30,6 +38,8 @@ public class NotificationServiceBean implements NotificationService {
         Preconditions.checkNotNullArgument(entry);
 
         vkNotificationBean.notifyReviewingEntry(entry);
+        vkWallNotificationBean.notifyReviewingEntry(entry);
+        postNotificationBean.notifyReviewingEntry(entry);
     }
 
     @Override
@@ -37,6 +47,8 @@ public class NotificationServiceBean implements NotificationService {
         Preconditions.checkNotNullArgument(entry);
 
         vkNotificationBean.notifyAcceptingEntry(entry);
+        vkWallNotificationBean.notifyAcceptingEntry(entry);
+        postNotificationBean.notifyReviewingEntry(entry);
     }
 
     @Override
@@ -44,6 +56,8 @@ public class NotificationServiceBean implements NotificationService {
         Preconditions.checkNotNullArgument(entry);
 
         vkNotificationBean.notifyAcceptedEntry(entry);
+        vkWallNotificationBean.notifyAcceptedEntry(entry);
+        postNotificationBean.notifyAcceptedEntry(entry);
     }
 
     @Override
@@ -51,6 +65,8 @@ public class NotificationServiceBean implements NotificationService {
         Preconditions.checkNotNullArgument(entry);
 
         vkNotificationBean.notifyRejectedEntry(entry);
+        vkWallNotificationBean.notifyRejectedEntry(entry);
+        postNotificationBean.notifyRejectedEntry(entry);
     }
 
     @Override
@@ -58,6 +74,8 @@ public class NotificationServiceBean implements NotificationService {
         Preconditions.checkNotEmptyString(message);
 
         vkNotificationBean.notifyCustomMessage(message);
+        vkWallNotificationBean.notifyCustomMessage(message);
+        postNotificationBean.notifyCustomMessage(message);
     }
 
     @Override

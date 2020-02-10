@@ -7,7 +7,8 @@ import javax.annotation.Nullable;
 public enum ExportConsumerType implements EnumClass<String> {
 
     VK("vk"),
-    PostConsumer("PostConsumer");
+    PostConsumer("post_consumer"),
+    VKWall("vk_wall");
 
     private String id;
 

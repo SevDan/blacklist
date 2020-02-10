@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<fts-config xmlns="http://schemas.haulmont.com/cuba/fts.xsd">
+<fts-config>
     <entities>
         <entity class="com.ragenotes.blacklist.entity.entries.BlackListEntry">
             <include re=".*"/>

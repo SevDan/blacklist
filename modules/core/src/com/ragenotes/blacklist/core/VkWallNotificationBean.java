@@ -8,11 +8,10 @@ import com.ragenotes.blacklist.entity.ExportConsumer;
 import com.ragenotes.blacklist.entity.ExportConsumerType;
 import com.ragenotes.blacklist.entity.ExportParam;
 import com.ragenotes.blacklist.entity.entries.BlackListEntry;
-
 import com.ragenotes.blacklist.entity.entries.EntryStatus;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
-import com.vk.api.sdk.client.actors.GroupActor;
+import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
@@ -22,15 +21,15 @@ import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component(VkNotificationBean.NAME)
-public class VkNotificationBean {
+@Component(VkWallNotificationBean.NAME)
+public class VkWallNotificationBean {
 
-    public static final String NAME = "bl_VkNotificationBean";
+    public static final String NAME = "bl_VkWallNotificationBean";
 
-    private static final String RECEIVER_PARAM = "receiver_id";
     private static final String GROUP_ID_PARAM = "group_id";
+    private static final String USER_ID_PARAM = "user_id";
     private static final String NEW_MSG_PARAM = "new_message_format";
-    private static final String ALL_MSG_PARAM ="message_format";
+    private static final String ALL_MSG_PARAM = "message_format";
     private static final String REVIEWING_MSG_PARAM = "reviewing_message_format";
     private static final String ACCEPTING_MSG_PARAM = "accepting_message_format";
     private static final String ACCEPTED_MSG_PARAM = "accepting_message_format";
@@ -45,9 +44,9 @@ public class VkNotificationBean {
     public void notifyNewEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
+        for (ExportConsumer consumer : vkWallConsumers) {
             if (!consumer.getIsNewConsumer()) {
                 continue;
             }
@@ -59,9 +58,9 @@ public class VkNotificationBean {
     public void notifyReviewingEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
+        for (ExportConsumer consumer : vkWallConsumers) {
             if (!consumer.getIsReviewingConsumer()) {
                 continue;
             }
@@ -73,9 +72,9 @@ public class VkNotificationBean {
     public void notifyAcceptingEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
+        for (ExportConsumer consumer : vkWallConsumers) {
             if (!consumer.getIsAcceptingConsumer()) {
                 continue;
             }
@@ -87,9 +86,9 @@ public class VkNotificationBean {
     public void notifyAcceptedEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
+        for (ExportConsumer consumer : vkWallConsumers) {
             if (!consumer.getIsAcceptedConsumer()) {
                 continue;
             }
@@ -101,9 +100,9 @@ public class VkNotificationBean {
     public void notifyRejectedEntry(BlackListEntry entry) {
         Preconditions.checkNotNullArgument(entry);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
+        for (ExportConsumer consumer : vkWallConsumers) {
             if (!consumer.getIsRejectedConsumer()) {
                 continue;
             }
@@ -115,22 +114,15 @@ public class VkNotificationBean {
     public void notifyCustomMessage(String message) {
         Preconditions.checkNotEmptyString(message);
 
-        List<ExportConsumer> vkConsumers = getVkConsumers();
+        List<ExportConsumer> vkWallConsumers = getVkWallConsumers();
 
-        for (ExportConsumer consumer : vkConsumers) {
-            if(!consumer.getIsDistributionConsumer()) {
+        for (ExportConsumer consumer : vkWallConsumers) {
+            if (!consumer.getIsDistributionConsumer()) {
                 continue;
             }
 
             processConsumerMessage(consumer, message);
         }
-    }
-
-    public List<Integer> getDialogs(ExportConsumer consumer) {
-        Preconditions.checkNotNullArgument(consumer);
-
-        Integer groupId = getGroupId(getConsumerParams(consumer));
-        return getConversations(groupId, consumer.getToken());
     }
 
     private void processConsumerMessage(ExportConsumer consumer,
@@ -143,16 +135,13 @@ public class VkNotificationBean {
         String message = buildMessage(entry, messageFormatParamName, params);
 
         Integer groupId = getGroupId(params);
+        Integer userId = getUserId(params);
 
-        if (groupId < 0) {
+        if (groupId < 0 || userId < 0) {
             return;
         }
 
-        List<Integer> receivers = getReceiverIds(params);
-
-        for (Integer receiver : receivers) {
-            sendMessage(groupId, token, message, receiver);
-        }
+        sendMessage(groupId, userId, token, message);
     }
 
     private void processConsumerMessage(ExportConsumer consumer, String message) {
@@ -161,41 +150,26 @@ public class VkNotificationBean {
         List<ExportParam> params = getConsumerParams(consumer);
 
         Integer groupId = getGroupId(params);
+        Integer userId = getUserId(params);
 
-        if (groupId < 0) {
+        if (groupId < 0 || userId < 0) {
             return;
         }
 
-        List<Integer> receivers = getReceiverIds(params);
-
-        for (Integer receiver : receivers) {
-            sendMessage(groupId, token, message, receiver);
-        }
-    }
-
-    private List<Integer> getReceiverIds(List<ExportParam> params) {
-        List<String> receivers = params.stream()
-                .filter(param -> RECEIVER_PARAM.equals(param.getKey()))
-                .map(ExportParam::getValue)
-                .collect(Collectors.toList());
-
-        List<Integer> result = new ArrayList<>();
-
-        for (String receiver : receivers) {
-            try {
-                Integer receiverId = Integer.parseInt(receiver);
-                result.add(receiverId);
-            } catch (NumberFormatException e) {
-                continue;
-            }
-        }
-
-        return result;
+        sendMessage(groupId, userId, token, message);
     }
 
     private Integer getGroupId(List<ExportParam> params) {
         return Integer.parseInt(params.stream()
                 .filter(param -> GROUP_ID_PARAM.equals(param.getKey()))
+                .findFirst()
+                .map(ExportParam::getValue)
+                .orElse("-1"));
+    }
+
+    private Integer getUserId(List<ExportParam> params) {
+        return Integer.parseInt(params.stream()
+                .filter(param -> USER_ID_PARAM.equals(param.getKey()))
                 .findFirst()
                 .map(ExportParam::getValue)
                 .orElse("-1"));
@@ -208,7 +182,7 @@ public class VkNotificationBean {
                 .map(ExportParam::getValue)
                 .orElse(null);
 
-        if(formatString == null) {
+        if (formatString == null) {
             formatString = params.stream()
                     .filter(param -> ALL_MSG_PARAM.equals(param.getKey()))
                     .findFirst()
@@ -270,44 +244,28 @@ public class VkNotificationBean {
                 .list();
     }
 
-    private List<ExportConsumer> getVkConsumers() {
+    private List<ExportConsumer> getVkWallConsumers() {
         return dataManager.load(ExportConsumer.class)
                 .query("select ec " +
                         "from bl_ExportConsumer ec " +
-                        "where ec.type = :vkType " +
+                        "where ec.type = :vkWallType " +
                         "   and ec.enabled = true")
-                .parameter("vkType", ExportConsumerType.VK)
+                .parameter("vkWallType", ExportConsumerType.VKWall)
                 .list();
     }
 
-    private List<Integer> getConversations(Integer groupId, String accessToken) {
-        GroupActor actor = new GroupActor(groupId, accessToken);
-        List<Integer> result = new ArrayList<>();
-        try {
-            result = vkApiClient.messages()
-                    .getConversations(actor)
-                    .execute()
-                    .getItems()
-                    .stream()
-                    .map(e -> e.getConversation().getPeer().getId())
-                    .collect(Collectors.toList());
-        } catch (ApiException | ClientException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     private void sendMessage(Integer groupId,
+                             Integer userId,
                              String accessToken,
-                             String message,
-                             Integer peerId) {
-        GroupActor actor = new GroupActor(groupId, accessToken);
+                             String message) {
+        UserActor actor = new UserActor(userId, accessToken);
         try {
-            vkApiClient.messages()
-                    .send(actor)
+            vkApiClient.wall()
+                    .post(actor)
+                    .fromGroup(true)
+                    .ownerId(-groupId)
                     .message(message)
-                    .peerId(peerId)
-                    .randomId(new Random().nextInt())
+                    .guid(UUID.randomUUID().toString())
                     .execute();
         } catch (ApiException | ClientException e) {
             e.printStackTrace();
