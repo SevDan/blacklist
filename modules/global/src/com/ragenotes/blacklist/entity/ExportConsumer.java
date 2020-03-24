@@ -28,28 +28,28 @@ public class ExportConsumer extends StandardEntity {
     private String token;
 
     @Column(name = "ENABLED")
-    private Boolean enabled;
+    private Boolean enabled = false;
 
     @Column(name = "IS_NEW_CONSUMER")
-    private Boolean isNewConsumer;
+    private Boolean isNewConsumer = false;
 
     @Column(name = "IS_REVIEWING_CONSUMER")
-    private Boolean isReviewingConsumer;
+    private Boolean isReviewingConsumer = false;
 
     @Column(name = "IS_READY_TO_ACCEPTING_CONSUMER")
-    private Boolean isReadyToAcceptingConsumer;
+    private Boolean isReadyToAcceptingConsumer = false;
 
     @Column(name = "IS_ACCEPTING_CONSUMER")
-    private Boolean isAcceptingConsumer;
+    private Boolean isAcceptingConsumer = false;
 
     @Column(name = "IS_ACCEPTED_CONSUMER")
-    private Boolean isAcceptedConsumer;
+    private Boolean isAcceptedConsumer = false;
 
     @Column(name = "IS_REJECTED_CONSUMER")
-    private Boolean isRejectedConsumer;
+    private Boolean isRejectedConsumer = false;
 
     @Column(name = "IS_DISTRIBUTION_CONSUMER")
-    private Boolean isDistributionConsumer;
+    private Boolean isDistributionConsumer = false;
 
     @OneToMany(mappedBy = "consumer")
     @OnDelete(DeletePolicy.CASCADE)
