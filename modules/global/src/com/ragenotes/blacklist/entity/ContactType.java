@@ -6,20 +6,21 @@ import javax.annotation.Nullable;
 
 public enum ContactType implements EnumClass<String> {
 
-    VkUrl("vkUrl"),
-    FacebookUrl("facebookUrl"),
+    // you should change this enum for your game model (you can use it for game params) (use it for payment params is not recommended)
+    VkUrl("vkUrl"), // if your game based on social networks
+    FacebookUrl("facebookUrl"), 
     YouTubeUrl("youTubeUrl"),
     Twitch("twitch"),
     Skype("skype"),
     Telegram("telegram"),
     EMail("e-mail"),
     Instagram("instagram"),
-    PhoneNumber("phoneNumber"),
-    YandexMoney("yandexMoney"),
-    WebMoney("webMoney"),
-    Qiwi("quwi"),
-    PayPal("payPal"),
-    Bank("bank"),
+    PhoneNumber("phoneNumber"), // deprecated
+    YandexMoney("yandexMoney"), // deprecated
+    WebMoney("webMoney"), // deprecated
+    Qiwi("quwi"), // deprecated
+    PayPal("payPal"), // deprecated
+    Bank("bank"), // deprecated
     Other("other");
 
     private String id;
